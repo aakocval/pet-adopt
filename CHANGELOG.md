@@ -6,6 +6,25 @@ uses [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-26
+
+M2 First vertical slice: Browse, end to end. The reference every other feature copies.
+
+### Added
+- Domain: `Pet` model and `PetRepository` / `FavoritesRepository` interfaces (pure Kotlin)
+- Data: in-memory repositories with 12 fictional pets, bound with Hilt
+- `BrowseViewModel`: one immutable `StateFlow<BrowseUiState>` (`WhileSubscribed(5s)`),
+  species filter, favorites, error + retry, and a buffered channel for one-off events
+- `BrowseRoute` (stateful) + `BrowseScreen` (stateless, previewable) with loading, empty and
+  error states, keyed lazy grid, pluralized ages and a favorite snackbar
+- Type-safe navigation: `@Serializable` routes and a `browseGraph(...)` extension with a
+  per-tab nested graph and a `nestedGraphs` slot
+- Lifecycle-aware `ObserveAsEvents` helper
+- Tests: repositories (Turbine), ViewModel (fakes + MockK, JUnit 5 Main dispatcher extension)
+
+### Removed
+- Temporary design system gallery launch screen
+
 ## [0.2.0] - 2026-11-26
 
 M1 Design system: the visual language every screen builds on.
@@ -41,6 +60,7 @@ M0 Foundations: a buildable, checked, empty app.
 - Backups disabled with explicit data extraction rules; only the launcher activity is exported
 - Secrets, keystores and `local.properties` git-ignored
 
-[Unreleased]: ../../compare/v0.2.0...HEAD
+[Unreleased]: ../../compare/v0.3.0...HEAD
+[0.3.0]: ../../compare/v0.2.0...v0.3.0
 [0.2.0]: ../../compare/v0.1.0...v0.2.0
 [0.1.0]: ../../releases/tag/v0.1.0

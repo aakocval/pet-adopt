@@ -50,3 +50,42 @@ by tooling from the first commit, before there is any feature code to argue abou
   content description.
 - **Vector drawables over icon libraries.** Shipping only the six icons used keeps the APK
   small, and every icon's license is recorded in its file.
+
+## M2 First vertical slice (v0.3.0)
+
+**What this milestone teaches:** the shape of one complete feature, from domain model to
+pixels, so every later feature is "copy Browse, change the nouns".
+
+```
+feature/browse/
+├── navigation/BrowseNavigation.kt   @Serializable routes + NavGraphBuilder.browseGraph(...)
+└── ui/
+    ├── BrowseUiState.kt             immutable state, sealed content, one-off events
+    ├── BrowseViewModel.kt           state holder: actions in, StateFlow out
+    ├── BrowseRoute.kt               stateful: ViewModel, lifecycle collection, events
+    └── BrowseScreen.kt              stateless: UiState + lambdas, previews
+```
+
+- **Dependencies point inward.** `domain/` has the model and repository *interfaces*;
+  `data/` implements them; `di/DataModule` binds one to the other. The ViewModel only sees
+  interfaces, so M6 can swap in an offline-first repository without touching Browse.
+- **No use case yet, on purpose.** Combining pets with favorites is a single `combine`; a
+  use-case class would only forward calls. Use cases arrive when logic is shared or non-trivial.
+- **One UiState, impossible states unrepresentable.** `BrowseContent` is `Loading | Error |
+  Pets`, so "loading with an error and stale data" can't happen by accident. Only immutable
+  types (`ImmutableList`, data classes) are used, so Compose infers stability without the
+  ViewModel importing Compose.
+- **State vs events.** State is replayed (a `StateFlow`); one-off effects like snackbars go
+  through a buffered `Channel`, delivered exactly once and only while the screen is STARTED.
+  The ViewModel sends *data* (`FavoriteChanged(name)`); the route turns it into a localized string.
+- **`stateIn(WhileSubscribed(5_000))`** keeps work alive through a rotation but stops it
+  5 seconds after the app is backgrounded. `collectAsStateWithLifecycle` is the other half.
+- **Route/screen split.** `BrowseRoute` is the only part that knows about Hilt and lifecycle;
+  `BrowseScreen` takes values and lambdas, which is what makes it previewable and UI-testable.
+- **Features don't know each other.** `browseGraph(onPetClick = ...)` takes navigation as
+  lambdas, and each tab gets its own nested graph (`BrowseGraph`), which is how per-tab back
+  stacks work in M3.
+- **Testing flows deterministically.** Collect `uiState` in `backgroundScope` with an
+  `UnconfinedTestDispatcher` and assert on `uiState.value`; a fake repository that emits
+  only when told makes "loading" observable. Turbine is for streams of events, MockK only for
+  pure interaction checks, hand-written fakes for anything stateful.
