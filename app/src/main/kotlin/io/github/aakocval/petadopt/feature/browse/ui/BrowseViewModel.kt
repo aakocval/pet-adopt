@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.aakocval.petadopt.core.ui.toCardUi
 import io.github.aakocval.petadopt.domain.model.FavoritablePet
 import io.github.aakocval.petadopt.domain.repository.FavoritesRepository
-import io.github.aakocval.petadopt.domain.repository.PetRepository
+import io.github.aakocval.petadopt.domain.usecase.ObservePetsWithFavoritesUseCase
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
@@ -39,7 +39,7 @@ import javax.inject.Inject
 class BrowseViewModel
     @Inject
     constructor(
-        private val petRepository: PetRepository,
+        private val observePetsWithFavorites: ObservePetsWithFavoritesUseCase,
         private val favoritesRepository: FavoritesRepository,
     ) : ViewModel() {
         private val filter = MutableStateFlow(SpeciesFilter.All)
@@ -52,23 +52,8 @@ class BrowseViewModel
         val uiState: StateFlow<BrowseUiState> =
             retries
                 .flatMapLatest {
-                    combine(
-                        petRepository.observePets(),
-                        favoritesRepository.observeFavoriteIds(),
-                        filter,
-                    ) { pets, favoriteIds, filter ->
-                        BrowseUiState(
-                            filter = filter,
-                            content =
-                                BrowseContent.Pets(
-                                    pets
-                                        .filter(
-                                            filter::matches,
-                                        ).map { FavoritablePet(it, isFavorite = it.id in favoriteIds).toCardUi() }
-                                        .toImmutableList(),
-                                ),
-                        )
-                    }.onStart { emit(BrowseUiState(filter = filter.value, content = BrowseContent.Loading)) }
+                    combine(observePetsWithFavorites(), filter, ::toUiState)
+                        .onStart { emit(BrowseUiState(filter = filter.value, content = BrowseContent.Loading)) }
                         .catch { emit(BrowseUiState(filter = filter.value, content = BrowseContent.Error)) }
                 }
                 // Keep the upstream alive 5s after the last collector leaves: survives rotation without
@@ -94,6 +79,17 @@ class BrowseViewModel
         fun onRetry() {
             retries.value++
         }
+
+        private fun toUiState(
+            pets: List<FavoritablePet>,
+            filter: SpeciesFilter,
+        ) = BrowseUiState(
+            filter = filter,
+            content =
+                BrowseContent.Pets(
+                    pets.filter { filter.matches(it.pet) }.map { it.toCardUi() }.toImmutableList(),
+                ),
+        )
 
         private companion object {
             const val STOP_TIMEOUT_MILLIS = 5_000L

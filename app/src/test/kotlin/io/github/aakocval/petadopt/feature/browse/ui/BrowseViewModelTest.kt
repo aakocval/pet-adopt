@@ -4,6 +4,7 @@ import app.cash.turbine.test
 import io.github.aakocval.petadopt.data.repository.InMemoryFavoritesRepository
 import io.github.aakocval.petadopt.domain.model.Species
 import io.github.aakocval.petadopt.domain.repository.FavoritesRepository
+import io.github.aakocval.petadopt.domain.usecase.ObservePetsWithFavoritesUseCase
 import io.github.aakocval.petadopt.testing.FakePetRepository
 import io.github.aakocval.petadopt.testing.MainDispatcherExtension
 import io.github.aakocval.petadopt.testing.testPet
@@ -37,7 +38,7 @@ class BrowseViewModelTest {
      * so assertions can read `uiState.value` deterministically.
      */
     private fun TestScope.viewModel(favoritesRepository: FavoritesRepository = favorites): BrowseViewModel {
-        val viewModel = BrowseViewModel(pets, favoritesRepository)
+        val viewModel = BrowseViewModel(ObservePetsWithFavoritesUseCase(pets, favoritesRepository), favoritesRepository)
         backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) { viewModel.uiState.collect() }
         return viewModel
     }
