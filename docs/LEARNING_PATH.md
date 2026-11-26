@@ -89,3 +89,38 @@ feature/browse/
   `UnconfinedTestDispatcher` and assert on `uiState.value`; a fake repository that emits
   only when told makes "loading" observable. Turbine is for streams of events, MockK only for
   pure interaction checks, hand-written fakes for anything stateful.
+
+## M3 Navigation depth (v0.4.0)
+
+**What this milestone teaches:** how to scale navigation to several features without them
+knowing about each other, and how per-tab back stacks actually work in Navigation Compose.
+
+```
+root (AppNavHost)
+├── BrowseGraph ──── Browse ─> PetDetail(petId)
+├── ExploreGraph ─── Explore
+├── FavoritesGraph ─ Favorites ─> PetDetail(petId)
+└── ProfileGraph ─── Profile ─(Saved pets)─> Favorites tab
+```
+
+- **One nested graph per tab.** A tab switch is `popUpTo(start) { saveState = true }` +
+  `restoreState = true` + `launchSingleTop`. The tab you leave is saved, not destroyed, and comes
+  back exactly as you left it. All of it is in `PetAppState`, not scattered across screens.
+- **The same screen in two tabs.** `petDetailScreen()` is registered inside both Browse's and
+  Favorites' graphs (via each feature's `nestedGraphs` slot). Navigating to `PetDetailDestination`
+  resolves inside the current tab's graph, so the detail lands on that tab's back stack and the
+  right tab stays highlighted.
+- **Features stay independent.** Features expose `NavGraphBuilder` extensions and take
+  navigation as lambdas. `AppNavHost` is the only file that knows "pet clicked" means "push
+  Pet Detail", and "Saved pets" means "switch to the Favorites tab".
+- **Arguments without SavedStateHandle.** The route reads `petId` from the type-safe route and
+  passes it to `PetDetailViewModel` through Hilt assisted injection
+  (`hiltViewModel<VM, Factory> { it.create(petId) }`). The ViewModel has no navigation import,
+  and tests just call its constructor.
+- **When a use case earns its place.** Browse and Favorites both join pets with favorites, so
+  that join became `ObservePetsWithFavoritesUseCase`: one tested implementation, two callers.
+  Shared UI pieces (`PetCardUi`, age formatting) moved to `core/ui` for the same reason.
+- **Two real bugs, found on a device.** In landscape, a full-width photo filled the screen
+  (fixed with a height cap and height-first `aspectRatio`). A fast double tap on Back popped
+  twice and left a blank tab (fixed with `dropUnlessResumed`, which ignores clicks while a
+  destination animates out). Unit tests wouldn't have caught either.
