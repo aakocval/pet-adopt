@@ -19,6 +19,8 @@ android {
         targetSdk = 37
         versionCode = 4
         versionName = "0.4.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -84,4 +86,11 @@ dependencies {
     testImplementation(libs.turbine)
     testImplementation(libs.mockk)
     testRuntimeOnly(libs.junit5.platform.launcher)
+
+    // Instrumented (on-device) Compose tests use JUnit 4 rules.
+    androidTestImplementation(platform(libs.compose.bom))
+    androidTestImplementation(libs.compose.ui.test.junit4)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    debugImplementation(libs.compose.ui.test.manifest)
 }
