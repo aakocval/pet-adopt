@@ -59,6 +59,18 @@
     <string name="explore_subtitle">Shelters near you</string>
     <string name="explore_placeholder">The shelter map is on its way.</string>
 
+    <!-- Onboarding -->
+    <string name="onboarding_page1_title">Meet your new best friend</string>
+    <string name="onboarding_page1_body">Browse dogs and cats from local shelters, all in one place.</string>
+    <string name="onboarding_page2_title">Save the ones you love</string>
+    <string name="onboarding_page2_body">Tap the heart to keep a shortlist and come back any time.</string>
+    <string name="onboarding_page3_title">Find shelters nearby</string>
+    <string name="onboarding_page3_body">See where each pet is waiting and plan a visit.</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_get_started">Get started</string>
+    <string name="onboarding_page_indicator">Page %1$d of %2$d</string>
+
     <!-- Tabs -->
     <string name="tab_browse">Browse</string>
     <string name="tab_explore">Explore</string>
