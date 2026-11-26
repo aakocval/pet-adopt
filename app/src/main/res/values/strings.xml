@@ -4,6 +4,7 @@
     <!-- Design system -->
     <string name="ds_favorite_add">Add to favorites</string>
     <string name="ds_favorite_remove">Remove from favorites</string>
+    <string name="ds_back">Back</string>
 
     <!-- Browse -->
     <string name="browse_title">Browse</string>
@@ -26,4 +27,41 @@
         <item quantity="one">%d yr</item>
         <item quantity="other">%d yrs</item>
     </plurals>
+
+    <!-- Pet detail -->
+    <string name="pet_detail_about">About %1$s</string>
+    <string name="pet_detail_shelter">Shelter</string>
+    <string name="pet_detail_not_found_title">Pet not found</string>
+    <string name="pet_detail_not_found_body">This pet may have found a home already.</string>
+    <string name="pet_sex_male">Male</string>
+    <string name="pet_sex_female">Female</string>
+
+    <!-- Favorites -->
+    <string name="favorites_title">Favorites</string>
+    <string name="favorites_subtitle">Pets you\'ve saved</string>
+    <string name="favorites_empty_title">No favorites yet</string>
+    <string name="favorites_empty_body">Tap the heart on any pet to save it here.</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Profile</string>
+    <string name="profile_guest_name">Guest</string>
+    <string name="profile_guest_body">Browsing without an account</string>
+    <string name="profile_saved_pets">Saved pets</string>
+    <plurals name="profile_saved_pets_count">
+        <item quantity="zero">None yet</item>
+        <item quantity="one">%d pet</item>
+        <item quantity="other">%d pets</item>
+    </plurals>
+    <string name="profile_version">Version</string>
+
+    <!-- Explore -->
+    <string name="explore_title">Explore</string>
+    <string name="explore_subtitle">Shelters near you</string>
+    <string name="explore_placeholder">The shelter map is on its way.</string>
+
+    <!-- Tabs -->
+    <string name="tab_browse">Browse</string>
+    <string name="tab_explore">Explore</string>
+    <string name="tab_favorites">Favorites</string>
+    <string name="tab_profile">Profile</string>
 </resources>

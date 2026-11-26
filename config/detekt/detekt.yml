@@ -2,6 +2,9 @@
 # Only Compose-specific relaxations live here; everything else is the default.
 
 naming:
+  # `*Navigation.kt` files group a feature's route class with its NavGraphBuilder extensions.
+  MatchingDeclarationName:
+    excludes: ['**/navigation/**']
   FunctionNaming:
     # Composables are PascalCase.
     ignoreAnnotated: ['Composable']

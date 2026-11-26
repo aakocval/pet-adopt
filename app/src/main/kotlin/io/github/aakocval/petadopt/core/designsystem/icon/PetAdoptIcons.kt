@@ -19,4 +19,6 @@ object PetAdoptIcons {
     @DrawableRes val MapPin = R.drawable.ic_map_pin
 
     @DrawableRes val ChevronRight = R.drawable.ic_chevron_right
+
+    @DrawableRes val ChevronLeft = R.drawable.ic_chevron_left
 }

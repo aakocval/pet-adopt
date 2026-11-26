@@ -24,7 +24,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,6 +34,8 @@ import io.github.aakocval.petadopt.core.designsystem.component.LargeTitle
 import io.github.aakocval.petadopt.core.designsystem.component.PetTile
 import io.github.aakocval.petadopt.core.designsystem.theme.PetAdoptTheme
 import io.github.aakocval.petadopt.core.designsystem.theme.Spacing
+import io.github.aakocval.petadopt.core.ui.PetCardUi
+import io.github.aakocval.petadopt.core.ui.petSubtitle
 import kotlinx.collections.immutable.persistentListOf
 
 /**
@@ -93,7 +94,7 @@ fun BrowseScreen(
                     items(content.pets, key = { it.id }, contentType = { "pet" }) { pet ->
                         PetTile(
                             name = pet.name,
-                            subtitle = stringResource(R.string.pet_subtitle, pet.breed, ageLabel(pet.ageInMonths)),
+                            subtitle = petSubtitle(pet.breed, pet.ageInMonths),
                             tileColor = PetAdoptTheme.colors.tileFor(pet.id),
                             isFavorite = pet.isFavorite,
                             onClick = { onPetClick(pet.id) },
@@ -143,18 +144,6 @@ private val SpeciesFilter.labelRes: Int
             SpeciesFilter.Dogs -> R.string.browse_filter_dogs
             SpeciesFilter.Cats -> R.string.browse_filter_cats
         }
-
-/** "8 mos" under a year, "2 yrs" after. Pluralized per locale via resources. */
-@Composable
-private fun ageLabel(ageInMonths: Int): String =
-    if (ageInMonths < MONTHS_PER_YEAR) {
-        pluralStringResource(R.plurals.pet_age_months, ageInMonths, ageInMonths)
-    } else {
-        val years = ageInMonths / MONTHS_PER_YEAR
-        pluralStringResource(R.plurals.pet_age_years, years, years)
-    }
-
-private const val MONTHS_PER_YEAR = 12
 
 @Composable
 private fun CenteredMessage(

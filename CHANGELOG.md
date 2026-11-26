@@ -6,6 +6,29 @@ uses [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-26
+
+M3 Navigation depth: four tabs, each with its own back stack, and Pet Detail.
+
+### Added
+- `AppNavHost`, `PetAppState` and `PetApp` shell: bottom tabs as nested graphs, tab switches
+  that save and restore each tab's back stack, re-tap a tab to pop to its root
+- Pet Detail: assisted-injected `PetDetailViewModel` (pet id passed in, no `SavedStateHandle`),
+  photo header, quick facts, bio, shelter, favorite toggle, not-found state
+- Favorites tab with an animated grid and empty state
+- Profile tab (guest header, live saved-pets count that jumps to Favorites, app version)
+- Placeholder Explore tab (map arrives in M6)
+- `ObservePetsWithFavoritesUseCase`, shared by Browse and Favorites
+- `BackButton` design system component; chevrons mirror in right-to-left layouts
+- Injectable `AppInfo` for build facts
+
+### Changed
+- Pet tile UI model and age formatting moved to `core/ui` so features don't import each other
+
+### Fixed
+- Pet photo header no longer fills the screen in landscape
+- A fast double tap on Back no longer pops the tab's root screen
+
 ## [0.3.0] - 2026-11-26
 
 M2 First vertical slice: Browse, end to end. The reference every other feature copies.
@@ -60,7 +83,8 @@ M0 Foundations: a buildable, checked, empty app.
 - Backups disabled with explicit data extraction rules; only the launcher activity is exported
 - Secrets, keystores and `local.properties` git-ignored
 
-[Unreleased]: ../../compare/v0.3.0...HEAD
+[Unreleased]: ../../compare/v0.4.0...HEAD
+[0.4.0]: ../../compare/v0.3.0...v0.4.0
 [0.3.0]: ../../compare/v0.2.0...v0.3.0
 [0.2.0]: ../../compare/v0.1.0...v0.2.0
 [0.1.0]: ../../releases/tag/v0.1.0
