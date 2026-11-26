@@ -1,4 +1,6 @@
 <resources>
-    <!-- Window theme only. All UI styling lives in the Compose theme (M1). -->
-    <style name="Theme.PetAdopt" parent="android:Theme.Material.Light.NoActionBar" />
+    <!-- Window theme only (matches the Compose background to avoid a flash). All UI styling lives in PetAdoptTheme. -->
+    <style name="Theme.PetAdopt" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/window_background</item>
+    </style>
 </resources>

@@ -14,9 +14,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import dagger.hilt.android.AndroidEntryPoint
+import io.github.aakocval.petadopt.core.designsystem.theme.PetAdoptTheme
 
 /**
- * Single activity. Hosts the Compose tree; navigation (M3) and the theme (M1) plug in here.
+ * Single activity. Hosts the Compose tree inside [PetAdoptTheme]; navigation plugs in here in M3.
  */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -24,7 +25,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MaterialTheme {
+            PetAdoptTheme {
                 PlaceholderScreen()
             }
         }
@@ -43,5 +44,5 @@ private fun PlaceholderScreen() {
 @Preview(showBackground = true)
 @Composable
 private fun PlaceholderScreenPreview() {
-    MaterialTheme { PlaceholderScreen() }
+    PetAdoptTheme { PlaceholderScreen() }
 }
