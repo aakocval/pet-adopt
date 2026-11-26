@@ -3,6 +3,7 @@
 
     <!-- Backups are off; data_extraction_rules makes that explicit for API 31+. Hardened further in M7. -->
     <application
+        android:name=".PetAdoptApp"
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="false"

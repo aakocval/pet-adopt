@@ -11,6 +11,7 @@ androidx-activity = "1.13.0"
 androidx-lifecycle = "2.11.1"
 compose-bom = "2026.11.01"
 junit5 = "5.14.4"
+coroutines = "1.11.0"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
@@ -25,6 +26,8 @@ compose-material3 = { module = "androidx.compose.material3:material3" }
 
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
+
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 
 junit5-bom = { module = "org.junit:junit-bom", version.ref = "junit5" }
 junit5-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
