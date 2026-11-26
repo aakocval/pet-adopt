@@ -91,6 +91,46 @@
     </plurals>
     <string name="auth_error_rejected">Couldn\'t sign in with those details.</string>
 
+    <!-- Adoption -->
+    <string name="adoption_title">Apply for %1$s</string>
+    <string name="adoption_title_generic">Adoption application</string>
+    <string name="adoption_step">Step %1$d of %2$d</string>
+    <string name="adoption_full_name">Full name</string>
+    <string name="adoption_email">Email</string>
+    <string name="adoption_phone">Phone</string>
+    <string name="adoption_home_type">Your home</string>
+    <string name="adoption_home_house">House</string>
+    <string name="adoption_home_apartment">Apartment</string>
+    <string name="adoption_home_other">Other</string>
+    <string name="adoption_other_pets">I have other pets</string>
+    <string name="adoption_message">Why would you be a great match?</string>
+    <string name="adoption_message_counter">%1$d / %2$d</string>
+    <string name="adoption_home_visit">I agree to a home visit before adoption</string>
+    <string name="adoption_continue">Review application</string>
+    <string name="adoption_review_title">Review</string>
+    <string name="adoption_edit">Edit</string>
+    <string name="adoption_submit">Send application</string>
+    <string name="adoption_submit_failed">Couldn\'t send your application. Please try again.</string>
+    <string name="adoption_yes">Yes</string>
+    <string name="adoption_no">No</string>
+    <string name="adoption_success_title">Application sent!</string>
+    <string name="adoption_success_body">The shelter will be in touch about %1$s soon.</string>
+    <string name="adoption_success_reference">Reference %1$s</string>
+    <string name="adoption_done">Done</string>
+    <string name="adoption_error_required">Required</string>
+    <string name="adoption_error_name_characters">Use letters, spaces, hyphens or apostrophes</string>
+    <string name="adoption_error_name_short">Enter your full name</string>
+    <string name="adoption_error_email">Enter a valid email address</string>
+    <string name="adoption_error_phone_short">That number looks too short</string>
+    <string name="adoption_error_phone_long">That number looks too long</string>
+    <string name="adoption_error_phone_format">Only use + at the start</string>
+    <plurals name="adoption_error_message_short">
+        <item quantity="one">Write at least %d character</item>
+        <item quantity="other">Write at least %d characters</item>
+    </plurals>
+    <string name="adoption_error_home_type">Choose one</string>
+    <string name="adoption_error_home_visit">Needed to continue</string>
+
     <!-- Tabs -->
     <string name="tab_browse">Browse</string>
     <string name="tab_explore">Explore</string>
