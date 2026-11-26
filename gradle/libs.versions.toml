@@ -12,6 +12,8 @@ androidx-lifecycle = "2.11.1"
 compose-bom = "2026.11.01"
 junit5 = "5.14.4"
 coroutines = "1.11.0"
+ktlintGradle = "14.2.0"
+ktlintCli = "1.8.0"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
@@ -40,3 +42,4 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintGradle" }
