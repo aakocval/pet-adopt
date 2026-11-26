@@ -71,6 +71,24 @@
     <string name="onboarding_get_started">Get started</string>
     <string name="onboarding_page_indicator">Page %1$d of %2$d</string>
 
+    <!-- Auth -->
+    <string name="auth_title">Welcome</string>
+    <string name="auth_subtitle">Sign in to save pets and apply to adopt.</string>
+    <string name="auth_email">Email</string>
+    <string name="auth_password">Password</string>
+    <string name="auth_show_password">Show</string>
+    <string name="auth_hide_password">Hide</string>
+    <string name="auth_sign_in">Sign in</string>
+    <string name="auth_demo_hint">Demo app: any email and a password of 8+ characters works.</string>
+    <string name="auth_error_email_blank">Enter your email</string>
+    <string name="auth_error_email_invalid">That doesn\'t look like an email address</string>
+    <string name="auth_error_password_blank">Enter your password</string>
+    <plurals name="auth_error_password_short">
+        <item quantity="one">Use at least %d character</item>
+        <item quantity="other">Use at least %d characters</item>
+    </plurals>
+    <string name="auth_error_rejected">Couldn\'t sign in with those details.</string>
+
     <!-- Tabs -->
     <string name="tab_browse">Browse</string>
     <string name="tab_explore">Explore</string>
