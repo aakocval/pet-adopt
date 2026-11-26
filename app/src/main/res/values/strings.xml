@@ -4,4 +4,26 @@
     <!-- Design system -->
     <string name="ds_favorite_add">Add to favorites</string>
     <string name="ds_favorite_remove">Remove from favorites</string>
+
+    <!-- Browse -->
+    <string name="browse_title">Browse</string>
+    <string name="browse_subtitle">Find your new best friend</string>
+    <string name="browse_filter_all">All</string>
+    <string name="browse_filter_dogs">Dogs</string>
+    <string name="browse_filter_cats">Cats</string>
+    <string name="browse_empty">No pets match this filter yet.</string>
+    <string name="browse_error">Couldn\'t load pets.</string>
+    <string name="browse_retry">Try again</string>
+    <string name="browse_favorite_added">%1$s added to favorites</string>
+    <string name="browse_favorite_removed">%1$s removed from favorites</string>
+    <!-- "Beagle · 2 yrs" -->
+    <string name="pet_subtitle">%1$s · %2$s</string>
+    <plurals name="pet_age_months">
+        <item quantity="one">%d mo</item>
+        <item quantity="other">%d mos</item>
+    </plurals>
+    <plurals name="pet_age_years">
+        <item quantity="one">%d yr</item>
+        <item quantity="other">%d yrs</item>
+    </plurals>
 </resources>

@@ -6,8 +6,8 @@ naming:
     # Composables are PascalCase.
     ignoreAnnotated: ['Composable']
   TopLevelPropertyNaming:
-    # Compose tokens like `val PastelMint = Color(...)`.
-    constantPattern: '[A-Z][A-Za-z0-9]*'
+    # Compose tokens like `val PastelMint = Color(...)` and classic `const val MAX_SIZE`.
+    constantPattern: '[A-Z][_A-Za-z0-9]*'
 
 complexity:
   LongParameterList:

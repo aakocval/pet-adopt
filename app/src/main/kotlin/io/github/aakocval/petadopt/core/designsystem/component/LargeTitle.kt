@@ -13,25 +13,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.unit.Dp
 import io.github.aakocval.petadopt.core.designsystem.theme.PetAdoptTheme
 import io.github.aakocval.petadopt.core.designsystem.theme.Spacing
 
 /**
  * iOS-style large screen title, left aligned, with an optional subtitle and trailing action.
  * Marked as a heading so TalkBack users can jump between screens' sections.
+ *
+ * @param horizontalPadding pass `0.dp` when the parent (e.g. a padded lazy grid) already insets content.
  */
 @Composable
 fun LargeTitle(
     title: String,
     modifier: Modifier = Modifier,
     subtitle: String? = null,
+    horizontalPadding: Dp = Spacing.screenHorizontal,
     trailing: (@Composable () -> Unit)? = null,
 ) {
     Row(
         modifier =
             modifier
                 .fillMaxWidth()
-                .padding(horizontal = Spacing.screenHorizontal, vertical = Spacing.sm),
+                .padding(horizontal = horizontalPadding, vertical = Spacing.sm),
         verticalAlignment = Alignment.Bottom,
     ) {
         Column(modifier = Modifier.weight(1f)) {
