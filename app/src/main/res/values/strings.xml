@@ -27,4 +27,12 @@
         <item quantity="one">%d yr</item>
         <item quantity="other">%d yrs</item>
     </plurals>
+
+    <!-- Pet detail -->
+    <string name="pet_detail_about">About %1$s</string>
+    <string name="pet_detail_shelter">Shelter</string>
+    <string name="pet_detail_not_found_title">Pet not found</string>
+    <string name="pet_detail_not_found_body">This pet may have found a home already.</string>
+    <string name="pet_sex_male">Male</string>
+    <string name="pet_sex_female">Female</string>
 </resources>
