@@ -1,6 +1,7 @@
 package io.github.aakocval.petadopt.feature.profile.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import io.github.aakocval.petadopt.R
@@ -36,6 +39,7 @@ import io.github.aakocval.petadopt.core.designsystem.theme.Spacing
 fun ProfileScreen(
     uiState: ProfileUiState,
     onOpenFavorites: () -> Unit,
+    onSignOut: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -62,9 +66,12 @@ fun ProfileScreen(
                     Icon(painterResource(PetAdoptIcons.Person), contentDescription = null)
                 }
                 Column {
-                    Text(stringResource(R.string.profile_guest_name), style = MaterialTheme.typography.titleMedium)
                     Text(
-                        text = stringResource(R.string.profile_guest_body),
+                        uiState.userName ?: stringResource(R.string.profile_guest_name),
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                    Text(
+                        text = uiState.userEmail ?: stringResource(R.string.profile_guest_body),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -92,6 +99,19 @@ fun ProfileScreen(
                 iconBackground = PetAdoptTheme.colors.tileFor("profile-version"),
             )
         }
+        Card {
+            Text(
+                text = stringResource(R.string.profile_sign_out),
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.error,
+                textAlign = TextAlign.Center,
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .clickable(role = Role.Button, onClick = onSignOut)
+                        .padding(Spacing.lg),
+            )
+        }
     }
 }
 
@@ -115,7 +135,17 @@ private fun Card(content: @Composable () -> Unit) {
 private fun ProfileScreenPreview() {
     PetAdoptTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
-            ProfileScreen(uiState = ProfileUiState(favoriteCount = 3, appVersion = "0.4.0"), onOpenFavorites = {})
+            ProfileScreen(
+                uiState =
+                    ProfileUiState(
+                        userName = "Alex",
+                        userEmail = "alex@example.com",
+                        favoriteCount = 3,
+                        appVersion = "0.5.0",
+                    ),
+                onOpenFavorites = {},
+                onSignOut = {},
+            )
         }
     }
 }

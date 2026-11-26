@@ -53,6 +53,7 @@
         <item quantity="other">%d pets</item>
     </plurals>
     <string name="profile_version">Version</string>
+    <string name="profile_sign_out">Sign out</string>
 
     <!-- Explore -->
     <string name="explore_title">Explore</string>
