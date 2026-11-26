@@ -161,3 +161,36 @@ RootNavHost (driven by RootViewModel)
   replaces screens with labels, so it needs no Hilt test setup.
 - **Testing DataStore for real.** Repository tests use an actual Preferences DataStore in a
   JUnit 5 `@TempDir`, so serialization and keys are exercised, not mocked.
+
+## M5 Flow state (v0.6.0)
+
+**What this milestone teaches:** how to build a multi-step flow whose screens share one piece
+of state, and how to validate user input properly without fighting the person typing.
+
+```
+PetDetail ─(Apply)─> AdoptionGraph(petId)          ← owns AdoptionViewModel
+                     ├── Form ─(valid)─> Review ─(sent)─> Success
+                     └── Success pops Form + Review; Done/Back leaves the whole graph
+```
+
+- **A ViewModel scoped to a nav graph.** Each step asks for the ViewModel from the
+  `AdoptionGraph` back stack entry (`hiltViewModel(viewModelStoreOwner = graphEntry)`), not from
+  its own entry. All three screens share one instance; popping the graph clears it.
+- **Surviving process death.** The draft is written through to `SavedStateHandle` as plain
+  primitives (the domain draft stays Parcelable-free). A test rebuilds the ViewModel from the
+  same handle; on the emulator, killing the backgrounded process and relaunching restored both
+  the back stack and every field.
+- **Sanitize vs validate.** `ApplicationInputSanitizer` runs on every keystroke and only removes
+  what can never be valid (control characters, letters in a phone number, input past the cap). It
+  never trims, so you can still type a space between names. `AdoptionApplicationValidator` runs
+  on the trimmed draft when you continue, and *again* before submitting: never trust that the
+  previous screen validated. The only way to build an `AdoptionApplication` is through it.
+- **Errors that don't nag.** Nothing is red until the first "Review application"; after that,
+  errors update live as you fix them. Errors are enums; the screen picks localized words.
+- **Text fields need synchronous state.** The first version derived UI state with `combine()`.
+  It passed every unit test, but on a device fast typing came out scrambled ("hoall day.m"),
+  because each keystroke took a few async hops before the field saw its own value. The fix keeps
+  one `MutableStateFlow` updated synchronously in each action (as the login form already did).
+- **Steps as events, exits as navigation rules.** The ViewModel emits `ShowReview` and
+  `Submitted`; the graph decides where to go. Reaching Success pops Form and Review, so Back can't
+  reopen a sent application.

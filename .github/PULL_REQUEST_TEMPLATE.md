@@ -10,6 +10,6 @@
 
 - [ ] `./gradlew ktlintCheck detekt lintDebug testDebugUnitTest` passes
 - [ ] Tests added or updated for new behavior
-- [ ] Commits follow Conventional Commits, one concept per commit
+- [ ] Commits use `[Type] Description` (e.g. `[Feat] Add pet filters`), one concept per commit
 - [ ] No secrets, API keys or personal data
 - [ ] CHANGELOG.md updated if user-facing
