@@ -72,5 +72,8 @@ dependencies {
 
     testImplementation(platform(libs.junit5.bom))
     testImplementation(libs.junit5.jupiter)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.turbine)
+    testImplementation(libs.mockk)
     testRuntimeOnly(libs.junit5.platform.launcher)
 }
