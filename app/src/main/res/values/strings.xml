@@ -48,10 +48,11 @@
     <string name="profile_guest_body">Browsing without an account</string>
     <string name="profile_saved_pets">Saved pets</string>
     <plurals name="profile_saved_pets_count">
-        <item quantity="zero">None yet</item>
         <item quantity="one">%d pet</item>
         <item quantity="other">%d pets</item>
     </plurals>
+    <!-- English has no "zero" plural category, so zero gets its own string. -->
+    <string name="profile_saved_pets_none">None yet</string>
     <string name="profile_version">Version</string>
     <string name="profile_sign_out">Sign out</string>
 

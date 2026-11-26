@@ -82,11 +82,15 @@ fun ProfileScreen(
             ListRow(
                 title = stringResource(R.string.profile_saved_pets),
                 subtitle =
-                    pluralStringResource(
-                        R.plurals.profile_saved_pets_count,
-                        uiState.favoriteCount,
-                        uiState.favoriteCount,
-                    ),
+                    if (uiState.favoriteCount == 0) {
+                        stringResource(R.string.profile_saved_pets_none)
+                    } else {
+                        pluralStringResource(
+                            R.plurals.profile_saved_pets_count,
+                            uiState.favoriteCount,
+                            uiState.favoriteCount,
+                        )
+                    },
                 icon = PetAdoptIcons.Heart,
                 iconBackground = PetAdoptTheme.colors.tileFor("profile-saved"),
                 onClick = onOpenFavorites,
