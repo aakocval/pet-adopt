@@ -1,5 +1,6 @@
 package io.github.aakocval.petadopt.feature.petdetail.navigation
 
+import androidx.lifecycle.compose.dropUnlessResumed
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -25,6 +26,11 @@ fun NavController.navigateToPetDetail(petId: String) =
  */
 fun NavGraphBuilder.petDetailScreen(onBack: () -> Unit) {
     composable<PetDetailDestination> { entry ->
-        PetDetailRoute(petId = entry.toRoute<PetDetailDestination>().petId, onBack = onBack)
+        PetDetailRoute(
+            petId = entry.toRoute<PetDetailDestination>().petId,
+            // Ignore taps while this screen is animating out: a fast double tap on Back would
+            // otherwise pop twice and remove the tab's root screen too.
+            onBack = dropUnlessResumed(block = onBack),
+        )
     }
 }
