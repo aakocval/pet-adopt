@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Every suppression here needs a reason. Keep this list short. -->
+<lint>
+    <!-- Dependabot owns version bumps; lint would otherwise fail CI the day a new release ships. -->
+    <issue id="GradleDependency" severity="informational" />
+    <issue id="AndroidGradlePluginVersion" severity="informational" />
+    <issue id="NewerVersionAvailable" severity="ignore" />
+</lint>

@@ -40,6 +40,15 @@ android {
         compose = true
     }
 
+    lint {
+        // Any lint warning fails the build. Exceptions must be justified in lint.xml.
+        warningsAsErrors = true
+        abortOnError = true
+        checkDependencies = true
+        lintConfig = file("lint.xml")
+        sarifReport = true
+    }
+
     testOptions {
         // Local unit tests run on the JVM with JUnit 5 (Jupiter); no Android plugin needed.
         unitTests.all { it.useJUnitPlatform() }
