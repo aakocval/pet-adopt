@@ -24,3 +24,29 @@ by tooling from the first commit, before there is any feature code to argue abou
   changed underneath you.
 - **Secure defaults before features.** Backups off, only the launcher exported, secrets
   git-ignored. Cheap to do now, painful to retrofit.
+
+## M1 Design system (v0.2.0)
+
+**What this milestone teaches:** how to build a small design system so screens describe
+*what* they show, never *how* it looks.
+
+- **Tokens, then theme, then components.** Raw colors in `Color.kt` are `internal`; screens
+  read `MaterialTheme.colorScheme` or `PetAdoptTheme.colors`. Dark mode is one switch in
+  `PetAdoptTheme`, not an `if` in every screen.
+- **Extending Material 3 without fighting it.** Pastel tiles and the favorite color have no M3
+  slot, so they live in an `@Immutable` `PetAdoptColors` provided through a
+  `staticCompositionLocalOf`, exposed as `PetAdoptTheme.colors`, the same pattern
+  `MaterialTheme` uses internally.
+- **Deterministic visuals.** `tileIndexFor(key)` uses `String.hashCode` (specified by the JVM)
+  masked to non-negative, so a pet keeps its color everywhere. The test covers the classic
+  `abs(Int.MIN_VALUE)` trap.
+- **Components take values and lambdas, not domain models.** `PetTile(name, subtitle, ...)`
+  doesn't know what a `Pet` is. That keeps the design system reusable, previewable with
+  literals, and made of stable parameters, so Compose can skip recomposition.
+- **Slots for what changes later.** `PetTile`'s `image` slot defaults to a placeholder; Coil
+  plugs in during M6 without touching the component.
+- **Accessibility is part of the component.** `FavoriteButton` is a real toggle (announced
+  as on/off, 48dp target), `LargeTitle` is a semantic heading, decorative icons have no
+  content description.
+- **Vector drawables over icon libraries.** Shipping only the six icons used keeps the APK
+  small, and every icon's license is recorded in its file.

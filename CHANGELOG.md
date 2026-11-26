@@ -6,6 +6,22 @@ uses [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-26
+
+M1 Design system: the visual language every screen builds on.
+
+### Added
+- `PetAdoptTheme` with light and dark color schemes, one tangerine accent and six pastel tiles
+  (muted counterparts in dark mode); dynamic color intentionally off
+- iOS-like type scale mapped onto Material 3 slots, using the system font
+- Shape and spacing tokens on a 4dp grid
+- Stable per-pet tile colors (`PetAdoptTheme.colors.tileFor(id)`)
+- Components with light/dark previews: `LargeTitle`, `PetTile` (+ `FavoriteButton`,
+  `PetPlaceholder`), `ListRow`, `PetAdoptBottomBar`
+- Vector icon set (`PetAdoptIcons`): original paw, plus Material Icons (Apache 2.0)
+- Temporary design system gallery as the launch screen (replaced in M3)
+- Window background matches the Compose theme in light and dark (no launch flash)
+
 ## [0.1.0] - 2026-11-26
 
 M0 Foundations: a buildable, checked, empty app.
@@ -25,5 +41,6 @@ M0 Foundations: a buildable, checked, empty app.
 - Backups disabled with explicit data extraction rules; only the launcher activity is exported
 - Secrets, keystores and `local.properties` git-ignored
 
-[Unreleased]: ../../compare/v0.1.0...HEAD
+[Unreleased]: ../../compare/v0.2.0...HEAD
+[0.2.0]: ../../compare/v0.1.0...v0.2.0
 [0.1.0]: ../../releases/tag/v0.1.0
