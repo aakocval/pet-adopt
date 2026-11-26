@@ -1,0 +1,4 @@
+<resources>
+    <!-- Window theme only. All UI styling lives in the Compose theme (M1). -->
+    <style name="Theme.PetAdopt" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>

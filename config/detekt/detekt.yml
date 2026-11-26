@@ -1,0 +1,27 @@
+# Overrides on top of detekt's default rule set (buildUponDefaultConfig = true).
+# Only Compose-specific relaxations live here; everything else is the default.
+
+naming:
+  FunctionNaming:
+    # Composables are PascalCase.
+    ignoreAnnotated: ['Composable']
+  TopLevelPropertyNaming:
+    # Compose tokens like `val PastelMint = Color(...)`.
+    constantPattern: '[A-Z][A-Za-z0-9]*'
+
+complexity:
+  LongParameterList:
+    # Stateless screens take UiState plus one lambda per action, by design.
+    ignoreAnnotated: ['Composable']
+  LongMethod:
+    ignoreAnnotated: ['Composable']
+
+style:
+  MagicNumber:
+    # Design tokens (dp, colors) and previews are the source of truth for their numbers.
+    ignorePropertyDeclaration: true
+    ignoreAnnotated: ['Preview']
+    excludes: ['**/test/**', '**/androidTest/**', '**/designsystem/**', '**/*.kts']
+  UnusedPrivateMember:
+    # Previews are private and only used by tooling.
+    ignoreAnnotated: ['Preview']
