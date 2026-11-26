@@ -11,6 +11,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 fun PetDetailRoute(
     petId: String,
     onBack: () -> Unit,
+    onApply: (petId: String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: PetDetailViewModel =
         hiltViewModel<PetDetailViewModel, PetDetailViewModel.Factory>(
@@ -22,6 +23,7 @@ fun PetDetailRoute(
         uiState = uiState,
         onBack = onBack,
         onToggleFavorite = viewModel::onToggleFavorite,
+        onApply = { onApply(petId) },
         modifier = modifier,
     )
 }

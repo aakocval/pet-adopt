@@ -24,13 +24,17 @@ fun NavController.navigateToPetDetail(petId: String) =
  * Adds Pet Detail to whichever graph calls it. The app registers it inside each tab that can open
  * a pet (Browse, Favorites), so the detail is pushed onto that tab's own back stack.
  */
-fun NavGraphBuilder.petDetailScreen(onBack: () -> Unit) {
+fun NavGraphBuilder.petDetailScreen(
+    onBack: () -> Unit,
+    onApply: (petId: String) -> Unit,
+) {
     composable<PetDetailDestination> { entry ->
         PetDetailRoute(
             petId = entry.toRoute<PetDetailDestination>().petId,
             // Ignore taps while this screen is animating out: a fast double tap on Back would
             // otherwise pop twice and remove the tab's root screen too.
             onBack = dropUnlessResumed(block = onBack),
+            onApply = onApply,
         )
     }
 }
