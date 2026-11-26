@@ -13,5 +13,10 @@ fun ProfileRoute(
     viewModel: ProfileViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    ProfileScreen(uiState = uiState, onOpenFavorites = onOpenFavorites, modifier = modifier)
+    ProfileScreen(
+        uiState = uiState,
+        onOpenFavorites = onOpenFavorites,
+        onSignOut = viewModel::onSignOut,
+        modifier = modifier,
+    )
 }

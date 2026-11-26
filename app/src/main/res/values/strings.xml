@@ -48,16 +48,48 @@
     <string name="profile_guest_body">Browsing without an account</string>
     <string name="profile_saved_pets">Saved pets</string>
     <plurals name="profile_saved_pets_count">
-        <item quantity="zero">None yet</item>
         <item quantity="one">%d pet</item>
         <item quantity="other">%d pets</item>
     </plurals>
+    <!-- English has no "zero" plural category, so zero gets its own string. -->
+    <string name="profile_saved_pets_none">None yet</string>
     <string name="profile_version">Version</string>
+    <string name="profile_sign_out">Sign out</string>
 
     <!-- Explore -->
     <string name="explore_title">Explore</string>
     <string name="explore_subtitle">Shelters near you</string>
     <string name="explore_placeholder">The shelter map is on its way.</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_page1_title">Meet your new best friend</string>
+    <string name="onboarding_page1_body">Browse dogs and cats from local shelters, all in one place.</string>
+    <string name="onboarding_page2_title">Save the ones you love</string>
+    <string name="onboarding_page2_body">Tap the heart to keep a shortlist and come back any time.</string>
+    <string name="onboarding_page3_title">Find shelters nearby</string>
+    <string name="onboarding_page3_body">See where each pet is waiting and plan a visit.</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_get_started">Get started</string>
+    <string name="onboarding_page_indicator">Page %1$d of %2$d</string>
+
+    <!-- Auth -->
+    <string name="auth_title">Welcome</string>
+    <string name="auth_subtitle">Sign in to save pets and apply to adopt.</string>
+    <string name="auth_email">Email</string>
+    <string name="auth_password">Password</string>
+    <string name="auth_show_password">Show</string>
+    <string name="auth_hide_password">Hide</string>
+    <string name="auth_sign_in">Sign in</string>
+    <string name="auth_demo_hint">Demo app: any email and a password of 8+ characters works.</string>
+    <string name="auth_error_email_blank">Enter your email</string>
+    <string name="auth_error_email_invalid">That doesn\'t look like an email address</string>
+    <string name="auth_error_password_blank">Enter your password</string>
+    <plurals name="auth_error_password_short">
+        <item quantity="one">Use at least %d character</item>
+        <item quantity="other">Use at least %d characters</item>
+    </plurals>
+    <string name="auth_error_rejected">Couldn\'t sign in with those details.</string>
 
     <!-- Tabs -->
     <string name="tab_browse">Browse</string>

@@ -48,6 +48,10 @@ jobs:
       - name: Assemble debug + release (R8)
         run: ./gradlew assembleDebug assembleRelease
 
+      # Compiles instrumented tests so they can't rot. Running them needs an emulator (see M9).
+      - name: Compile instrumented tests
+        run: ./gradlew assembleDebugAndroidTest
+
       - name: Upload detekt SARIF
         if: always() && github.event_name == 'push'
         uses: github/codeql-action/upload-sarif@915412ff23e8b7659517e607487dbeae018f2934 # v4.39.5

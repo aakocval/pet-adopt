@@ -1,10 +1,9 @@
 package io.github.aakocval.petadopt.feature.profile.ui
 
-/**
- * Profile content. The user is always a guest until sign-in arrives with the auth gate (M4),
- * so there's no loading state: everything here is local and immediate.
- */
+/** Profile content. Everything is local and immediate, so there's no loading state. */
 data class ProfileUiState(
+    val userName: String? = null,
+    val userEmail: String? = null,
     val favoriteCount: Int = 0,
     val appVersion: String = "",
 )

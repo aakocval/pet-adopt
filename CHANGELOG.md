@@ -6,6 +6,28 @@ uses [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-11-26
+
+M4 Nested graphs: onboarding, an auth gate, and a root that switches graphs.
+
+### Added
+- Root navigation: `RootViewModel` maps onboarding + session state to Onboarding, Auth or Main;
+  `RootNavHost` swaps graphs and clears the whole back stack on every switch
+- Onboarding graph: three swipeable pages with Skip / Next / Get started, shown once
+- Auth graph: login screen with validation, input sanitizing, double-submit guard, autofill
+  hints, show/hide password and an accessible error message
+- Fake auth repository: any valid email + 8-character password; session persisted in DataStore
+  (display name and email only, never the password)
+- DataStore-backed user preferences on the injected IO dispatcher
+- Pure-Kotlin `EmailValidator` and `PasswordPolicy` in the domain layer
+- Profile shows the signed-in user and has Sign out
+- Tests: preferences and auth against a real temp-file DataStore, login and root ViewModels,
+  and instrumented Compose tests for root back-stack clearing
+- CI compiles instrumented tests
+
+### Fixed
+- Profile says "None yet" instead of "0 pets"
+
 ## [0.4.0] - 2026-11-26
 
 M3 Navigation depth: four tabs, each with its own back stack, and Pet Detail.
@@ -83,7 +105,8 @@ M0 Foundations: a buildable, checked, empty app.
 - Backups disabled with explicit data extraction rules; only the launcher activity is exported
 - Secrets, keystores and `local.properties` git-ignored
 
-[Unreleased]: ../../compare/v0.4.0...HEAD
+[Unreleased]: ../../compare/v0.5.0...HEAD
+[0.5.0]: ../../compare/v0.4.0...v0.5.0
 [0.4.0]: ../../compare/v0.3.0...v0.4.0
 [0.3.0]: ../../compare/v0.2.0...v0.3.0
 [0.2.0]: ../../compare/v0.1.0...v0.2.0

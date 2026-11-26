@@ -124,3 +124,40 @@ root (AppNavHost)
   (fixed with a height cap and height-first `aspectRatio`). A fast double tap on Back popped
   twice and left a blank tab (fixed with `dropUnlessResumed`, which ignores clicks while a
   destination animates out). Unit tests wouldn't have caught either.
+
+## M4 Nested graphs (v0.5.0)
+
+**What this milestone teaches:** how to gate an app behind onboarding and sign-in without
+any screen navigating across graphs, and how to make sure Back never leaks between them.
+
+```
+RootNavHost (driven by RootViewModel)
+├── OnboardingGraph ── Onboarding (3 pages)
+├── AuthGraph ──────── Login
+└── MainDestination ── PetApp (bottom tabs, own nested NavHost)
+```
+
+- **State drives navigation, not screens.** Finishing onboarding writes a preference; signing
+  in or out changes the session. `RootViewModel` combines both into one `RootDestination`
+  (a pure function, `rootDestinationFor`), and the root swaps graphs when it changes. Login
+  and Profile never call `navigate`.
+- **Clearing the back stack on every switch.** `switchRootTo` navigates with
+  `popUpTo(graph.id) { inclusive = true }`, so the new graph is the only thing left. After
+  signing in, Back leaves the app instead of returning to login; after signing out, Back can't
+  reach the app. Switching to the graph already showing is a no-op, so recompositions and
+  rotations don't reset anything.
+- **A nested NavHost for the main app.** The tabs keep their own `NavHostController` inside the
+  `MainDestination`. Signing out destroys it, so the next user starts with fresh tabs.
+- **Validation where it belongs.** Format rules (`EmailValidator`, `PasswordPolicy`) are pure
+  Kotlin in the domain, shared by the form and the backend. The ViewModel sanitizes as you type
+  (no whitespace, length caps), validates on submit, reports errors as enums (the screen picks
+  the words), and ignores a second tap while a request is in flight.
+- **Handle credentials carefully.** The password lives only in in-memory UI state, is cleared
+  after a successful sign-in, and is never logged or persisted. Autofill hints let password
+  managers fill the form. (Keystore-backed session storage comes in M7.)
+- **Testing navigation at two levels.** JVM tests cover the decision (`rootDestinationFor`, the
+  full onboarding -> sign in -> sign out lifecycle). An instrumented Compose test drives the
+  real `switchRootTo` against the real routes and asserts nothing is left to go back to. It
+  replaces screens with labels, so it needs no Hilt test setup.
+- **Testing DataStore for real.** Repository tests use an actual Preferences DataStore in a
+  JUnit 5 `@TempDir`, so serialization and keys are exercised, not mocked.
