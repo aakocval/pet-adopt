@@ -28,14 +28,16 @@ fun PetApp(appState: PetAppState = rememberPetAppState()) {
         containerColor = MaterialTheme.colorScheme.background,
         snackbarHost = { SnackbarHost(snackbarHostState) },
         bottomBar = {
-            PetAdoptBottomBar(
-                items = tabs,
-                selectedIndex = currentTab?.ordinal ?: -1,
-                onSelect = { index ->
-                    val tab = TopLevelDestination.entries[index]
-                    if (tab == currentTab) appState.popToRoot(tab) else appState.navigateToTopLevelDestination(tab)
-                },
-            )
+            if (appState.shouldShowBottomBar) {
+                PetAdoptBottomBar(
+                    items = tabs,
+                    selectedIndex = currentTab?.ordinal ?: -1,
+                    onSelect = { index ->
+                        val tab = TopLevelDestination.entries[index]
+                        if (tab == currentTab) appState.popToRoot(tab) else appState.navigateToTopLevelDestination(tab)
+                    },
+                )
+            }
         },
     ) { padding ->
         AppNavHost(
