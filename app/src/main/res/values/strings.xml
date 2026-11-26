@@ -41,4 +41,17 @@
     <string name="favorites_subtitle">Pets you\'ve saved</string>
     <string name="favorites_empty_title">No favorites yet</string>
     <string name="favorites_empty_body">Tap the heart on any pet to save it here.</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Profile</string>
+    <string name="profile_guest_name">Guest</string>
+    <string name="profile_guest_body">Browsing without an account</string>
+    <string name="profile_saved_pets">Saved pets</string>
+    <plurals name="profile_saved_pets_count">
+        <item quantity="zero">None yet</item>
+        <item quantity="one">%d pet</item>
+        <item quantity="other">%d pets</item>
+    </plurals>
+    <string name="profile_version">Version</string>
+
 </resources>
