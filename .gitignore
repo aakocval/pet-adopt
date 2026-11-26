@@ -1,0 +1,32 @@
+# --- Build output ---
+build/
+.gradle/
+.kotlin/
+captures/
+*.apk
+*.aab
+*.ap_
+*.dex
+output-metadata.json
+
+# --- IDE ---
+.idea/
+*.iml
+.DS_Store
+.externalNativeBuild/
+.cxx/
+
+# --- Secrets: never commit these ---
+local.properties
+keystore.properties
+signing.properties
+*.jks
+*.keystore
+*.p12
+*.pem
+google-services.json
+.env
+.env.*
+
+# --- Logs ---
+*.log
