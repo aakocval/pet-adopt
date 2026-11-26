@@ -39,6 +39,11 @@ android {
     buildFeatures {
         compose = true
     }
+
+    testOptions {
+        // Local unit tests run on the JVM with JUnit 5 (Jupiter); no Android plugin needed.
+        unitTests.all { it.useJUnitPlatform() }
+    }
 }
 
 dependencies {
@@ -55,4 +60,8 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+
+    testImplementation(platform(libs.junit5.bom))
+    testImplementation(libs.junit5.jupiter)
+    testRuntimeOnly(libs.junit5.platform.launcher)
 }
