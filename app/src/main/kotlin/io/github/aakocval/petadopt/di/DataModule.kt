@@ -5,9 +5,11 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.github.aakocval.petadopt.data.repository.DataStoreUserPreferencesRepository
+import io.github.aakocval.petadopt.data.repository.FakeAdoptionRepository
 import io.github.aakocval.petadopt.data.repository.FakeAuthRepository
 import io.github.aakocval.petadopt.data.repository.InMemoryFavoritesRepository
 import io.github.aakocval.petadopt.data.repository.InMemoryPetRepository
+import io.github.aakocval.petadopt.domain.repository.AdoptionRepository
 import io.github.aakocval.petadopt.domain.repository.AuthRepository
 import io.github.aakocval.petadopt.domain.repository.FavoritesRepository
 import io.github.aakocval.petadopt.domain.repository.PetRepository
@@ -28,4 +30,7 @@ interface DataModule {
 
     @Binds
     fun bindsAuthRepository(impl: FakeAuthRepository): AuthRepository
+
+    @Binds
+    fun bindsAdoptionRepository(impl: FakeAdoptionRepository): AdoptionRepository
 }
