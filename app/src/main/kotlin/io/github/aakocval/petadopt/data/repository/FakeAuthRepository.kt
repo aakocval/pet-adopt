@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import io.github.aakocval.petadopt.domain.model.User
 import io.github.aakocval.petadopt.domain.repository.AuthRepository
 import io.github.aakocval.petadopt.domain.repository.SignInResult
+import io.github.aakocval.petadopt.domain.validation.PasswordPolicy
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -19,7 +20,7 @@ import javax.inject.Singleton
 
 /**
  * Offline stand-in for a real auth backend: any well-formed email with a password of at least
- * [MIN_PASSWORD_LENGTH] characters signs in, after a short simulated network delay.
+ * [PasswordPolicy.MIN_LENGTH] characters signs in, after a short simulated network delay.
  *
  * Only the display name and email are persisted, so the session survives restarts. No password
  * or token is ever stored. M7 moves session data into Keystore-backed encrypted storage.
@@ -43,7 +44,7 @@ class FakeAuthRepository
             password: String,
         ): SignInResult {
             delay(SIMULATED_LATENCY_MILLIS)
-            if (password.length < MIN_PASSWORD_LENGTH || !email.contains('@')) return SignInResult.InvalidCredentials
+            if (!PasswordPolicy.isLongEnough(password) || !email.contains('@')) return SignInResult.InvalidCredentials
             val user = User(displayName = displayNameFor(email), email = email)
             dataStore.edit {
                 it[SessionEmail] = user.email
@@ -60,7 +61,6 @@ class FakeAuthRepository
         }
 
         companion object {
-            const val MIN_PASSWORD_LENGTH = 8
             private const val SIMULATED_LATENCY_MILLIS = 600L
             private val SessionEmail = stringPreferencesKey("session_email")
             private val SessionName = stringPreferencesKey("session_display_name")
