@@ -20,14 +20,13 @@ import kotlinx.collections.immutable.toImmutableMap
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -48,45 +47,35 @@ class AdoptionViewModel
         authRepository: AuthRepository,
         private val adoptionRepository: AdoptionRepository,
     ) : ViewModel() {
-        private val draft = MutableStateFlow(savedStateHandle.restoreDraft())
-        private val showErrors = MutableStateFlow(false)
-        private val submission = MutableStateFlow(Submission(reference = savedStateHandle[KEY_REFERENCE]))
+        // One synchronously updated state. A text field must see its new value in the same frame it
+        // reports it; deriving the state through combine() adds async hops that scramble fast typing.
+        private val state =
+            MutableStateFlow(
+                AdoptionUiState(draft = savedStateHandle.restoreDraft(), reference = savedStateHandle[KEY_REFERENCE]),
+            )
+        val uiState: StateFlow<AdoptionUiState> = state.asStateFlow()
+
+        /** Errors stay hidden until the first Continue; afterwards they track every edit. */
+        private var showErrors = false
 
         private val eventChannel = Channel<AdoptionEvent>(Channel.BUFFERED)
         val events: Flow<AdoptionEvent> = eventChannel.receiveAsFlow()
 
-        val uiState: StateFlow<AdoptionUiState> =
-            combine(
-                // Start with no name: combine() waits for every source, and the form must react to typing
-                // even before (or without) the pet loading.
-                petRepository.observePet(petId).map { it?.name }.onStart { emit(null) },
-                draft,
-                showErrors,
-                submission,
-            ) { petName, draft, showErrors, submission ->
-                AdoptionUiState(
-                    petName = petName,
-                    draft = draft,
-                    errors =
-                        if (showErrors) {
-                            AdoptionApplicationValidator
-                                .validate(
-                                    draft,
-                                ).toImmutableMap()
-                        } else {
-                            persistentMapOf()
-                        },
-                    isSubmitting = submission.inFlight,
-                    submitFailed = submission.failed,
-                    reference = submission.reference,
-                )
-            }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILLIS), AdoptionUiState())
-
         init {
+            petRepository
+                .observePet(petId)
+                .map { it?.name }
+                .onEach { name -> state.update { it.copy(petName = name) } }
+                .launchIn(viewModelScope)
+
             // Prefill from the account, but never overwrite a restored draft.
             viewModelScope.launch {
                 val user = authRepository.currentUser.first() ?: return@launch
-                if (draft.value.fullName.isEmpty() && draft.value.email.isEmpty()) {
+                if (state.value.draft.fullName
+                        .isEmpty() &&
+                    state.value.draft.email
+                        .isEmpty()
+                ) {
                     updateDraft { it.copy(fullName = user.displayName, email = user.email) }
                 }
             }
@@ -108,54 +97,60 @@ class AdoptionViewModel
 
         /** Form -> Review, only when everything is valid. Errors become visible from now on. */
         fun onContinue() {
-            showErrors.value = true
-            if (AdoptionApplicationValidator.validate(draft.value).isEmpty()) {
-                eventChannel.trySend(AdoptionEvent.ShowReview)
-            }
+            showErrors = true
+            val errors = AdoptionApplicationValidator.validate(state.value.draft)
+            state.update { it.copy(errors = errors.toImmutableMap()) }
+            if (errors.isEmpty()) eventChannel.trySend(AdoptionEvent.ShowReview)
         }
 
         /** Review -> Success. Validates again: never trust that the form screen did. */
         fun onSubmit() {
-            if (submission.value.inFlight || submission.value.reference != null) return
+            val current = state.value
+            if (current.isSubmitting || current.reference != null) return
             val application =
-                AdoptionApplicationValidator.toApplication(petId, draft.value) ?: run {
-                    showErrors.value = true
+                AdoptionApplicationValidator.toApplication(petId, current.draft) ?: run {
+                    showErrors = true
+                    state.update { it.copy(errors = AdoptionApplicationValidator.validate(it.draft).toImmutableMap()) }
                     return
                 }
-            submission.value = Submission(inFlight = true)
+            state.update { it.copy(isSubmitting = true, submitFailed = false) }
             viewModelScope.launch {
                 when (val result = adoptionRepository.submit(application)) {
                     is SubmitResult.Success -> {
                         savedStateHandle[KEY_REFERENCE] = result.reference
-                        submission.value = Submission(reference = result.reference)
+                        state.update { it.copy(isSubmitting = false, reference = result.reference) }
                         eventChannel.send(AdoptionEvent.Submitted)
                     }
 
                     SubmitResult.Failure -> {
-                        submission.value = Submission(failed = true)
+                        state.update { it.copy(isSubmitting = false, submitFailed = true) }
                     }
                 }
             }
         }
 
         private fun updateDraft(transform: (ApplicationDraft) -> ApplicationDraft) {
-            draft.update(transform)
-            savedStateHandle.saveDraft(draft.value)
-            submission.update { it.copy(failed = false) }
+            state.update { current ->
+                val draft = transform(current.draft)
+                current.copy(
+                    draft = draft,
+                    errors =
+                        if (showErrors) {
+                            AdoptionApplicationValidator
+                                .validate(
+                                    draft,
+                                ).toImmutableMap()
+                        } else {
+                            persistentMapOf()
+                        },
+                    submitFailed = false,
+                )
+            }
+            savedStateHandle.saveDraft(state.value.draft)
         }
-
-        private data class Submission(
-            val inFlight: Boolean = false,
-            val failed: Boolean = false,
-            val reference: String? = null,
-        )
 
         @AssistedFactory
         interface Factory {
             fun create(petId: String): AdoptionViewModel
-        }
-
-        private companion object {
-            const val STOP_TIMEOUT_MILLIS = 5_000L
         }
     }
