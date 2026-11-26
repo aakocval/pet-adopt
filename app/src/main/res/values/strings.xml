@@ -4,6 +4,7 @@
     <!-- Design system -->
     <string name="ds_favorite_add">Add to favorites</string>
     <string name="ds_favorite_remove">Remove from favorites</string>
+    <string name="ds_back">Back</string>
 
     <!-- Browse -->
     <string name="browse_title">Browse</string>
