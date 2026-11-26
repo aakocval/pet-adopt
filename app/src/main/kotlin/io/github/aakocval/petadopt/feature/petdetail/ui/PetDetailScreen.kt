@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -25,6 +26,7 @@ import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.unit.dp
 import io.github.aakocval.petadopt.R
 import io.github.aakocval.petadopt.core.designsystem.component.BackButton
 import io.github.aakocval.petadopt.core.designsystem.component.FavoriteButton
@@ -73,12 +75,15 @@ private fun PetDetailContent(
                     .fillMaxWidth()
                     .background(tileColor)
                     .padding(start = Spacing.lg, end = Spacing.lg, top = Spacing.xxl * 2, bottom = Spacing.lg),
+            contentAlignment = Alignment.Center,
         ) {
+            // Height is capped so the photo doesn't fill a landscape or tablet screen;
+            // height-first sizing keeps the aspect ratio inside that cap.
             Box(
                 modifier =
                     Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(PHOTO_ASPECT_RATIO)
+                        .heightIn(max = MaxPhotoHeight)
+                        .aspectRatio(PHOTO_ASPECT_RATIO, matchHeightConstraintsFirst = true)
                         .clip(MaterialTheme.shapes.large),
             ) { PetPlaceholder() }
         }
@@ -153,6 +158,7 @@ private fun NotFound(modifier: Modifier = Modifier) {
 }
 
 private const val PHOTO_ASPECT_RATIO = 1.25f
+private val MaxPhotoHeight = 320.dp
 
 @PreviewLightDark
 @Composable
