@@ -35,4 +35,10 @@
     <string name="pet_detail_not_found_body">This pet may have found a home already.</string>
     <string name="pet_sex_male">Male</string>
     <string name="pet_sex_female">Female</string>
+
+    <!-- Favorites -->
+    <string name="favorites_title">Favorites</string>
+    <string name="favorites_subtitle">Pets you\'ve saved</string>
+    <string name="favorites_empty_title">No favorites yet</string>
+    <string name="favorites_empty_body">Tap the heart on any pet to save it here.</string>
 </resources>
