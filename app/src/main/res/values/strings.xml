@@ -54,4 +54,8 @@
     </plurals>
     <string name="profile_version">Version</string>
 
+    <!-- Explore -->
+    <string name="explore_title">Explore</string>
+    <string name="explore_subtitle">Shelters near you</string>
+    <string name="explore_placeholder">The shelter map is on its way.</string>
 </resources>
