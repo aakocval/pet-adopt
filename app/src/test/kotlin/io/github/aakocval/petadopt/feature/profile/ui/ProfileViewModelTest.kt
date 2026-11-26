@@ -5,6 +5,8 @@ import io.github.aakocval.petadopt.data.repository.InMemoryFavoritesRepository
 import io.github.aakocval.petadopt.domain.model.User
 import io.github.aakocval.petadopt.domain.repository.AuthRepository
 import io.github.aakocval.petadopt.testing.MainDispatcherExtension
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.collect
@@ -44,4 +46,13 @@ class ProfileViewModelTest {
 
             assertEquals(2, viewModel.uiState.value.favoriteCount)
         }
+
+    @Test
+    fun `sign out clears the session and nothing else`() {
+        coEvery { auth.signOut() } returns Unit
+
+        ProfileViewModel(auth, favorites, AppInfo(versionName = "1.0")).onSignOut()
+
+        coVerify(exactly = 1) { auth.signOut() }
+    }
 }
