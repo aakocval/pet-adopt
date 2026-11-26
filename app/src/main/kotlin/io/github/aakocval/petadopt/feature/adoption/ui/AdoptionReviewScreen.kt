@@ -70,7 +70,11 @@ internal fun AdoptionReviewScreen(
                     )
                 }
             }
-            Surface(shape = MaterialTheme.shapes.medium, color = MaterialTheme.colorScheme.surface) {
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                shape = MaterialTheme.shapes.medium,
+                color = MaterialTheme.colorScheme.surface,
+            ) {
                 Column(
                     modifier = Modifier.padding(Spacing.lg),
                     verticalArrangement = Arrangement.spacedBy(Spacing.xs),
