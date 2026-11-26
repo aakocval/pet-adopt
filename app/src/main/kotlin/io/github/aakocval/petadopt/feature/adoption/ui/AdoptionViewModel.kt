@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -56,7 +57,9 @@ class AdoptionViewModel
 
         val uiState: StateFlow<AdoptionUiState> =
             combine(
-                petRepository.observePet(petId).map { it?.name },
+                // Start with no name: combine() waits for every source, and the form must react to typing
+                // even before (or without) the pet loading.
+                petRepository.observePet(petId).map { it?.name }.onStart { emit(null) },
                 draft,
                 showErrors,
                 submission,
