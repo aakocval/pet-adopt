@@ -1,0 +1,29 @@
+# Weekly dependency PRs. Related libraries are grouped so one PR = one coherent upgrade.
+version: 2
+updates:
+  - package-ecosystem: gradle
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      kotlin-toolchain:
+        patterns: ["org.jetbrains.kotlin*", "com.google.devtools.ksp*"]
+      androidx:
+        patterns: ["androidx.*"]
+      hilt:
+        patterns: ["com.google.dagger*"]
+      testing:
+        patterns: ["org.junit*"]
+      static-analysis:
+        patterns: ["io.gitlab.arturbosch.detekt*", "org.jlleitschuh.gradle.ktlint*", "com.pinterest*"]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ci
