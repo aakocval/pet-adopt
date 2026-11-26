@@ -1,5 +1,6 @@
 package io.github.aakocval.petadopt.feature.browse.ui
 
+import io.github.aakocval.petadopt.core.ui.PetCardUi
 import io.github.aakocval.petadopt.domain.model.Pet
 import io.github.aakocval.petadopt.domain.model.Species
 import kotlinx.collections.immutable.ImmutableList
@@ -26,15 +27,6 @@ sealed interface BrowseContent {
     ) : BrowseContent
 }
 
-/** What one grid tile needs, already combined with favorite state. Formatting stays in the UI. */
-data class PetCardUi(
-    val id: String,
-    val name: String,
-    val breed: String,
-    val ageInMonths: Int,
-    val isFavorite: Boolean,
-)
-
 enum class SpeciesFilter {
     All,
     Dogs,
@@ -56,12 +48,3 @@ sealed interface BrowseEvent {
         val isFavorite: Boolean,
     ) : BrowseEvent
 }
-
-internal fun Pet.toCardUi(isFavorite: Boolean) =
-    PetCardUi(
-        id = id,
-        name = name,
-        breed = breed,
-        ageInMonths = ageInMonths,
-        isFavorite = isFavorite,
-    )

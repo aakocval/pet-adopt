@@ -3,6 +3,8 @@ package io.github.aakocval.petadopt.feature.browse.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.aakocval.petadopt.core.ui.toCardUi
+import io.github.aakocval.petadopt.domain.model.FavoritablePet
 import io.github.aakocval.petadopt.domain.repository.FavoritesRepository
 import io.github.aakocval.petadopt.domain.repository.PetRepository
 import kotlinx.collections.immutable.toImmutableList
@@ -62,7 +64,7 @@ class BrowseViewModel
                                     pets
                                         .filter(
                                             filter::matches,
-                                        ).map { it.toCardUi(isFavorite = it.id in favoriteIds) }
+                                        ).map { FavoritablePet(it, isFavorite = it.id in favoriteIds).toCardUi() }
                                         .toImmutableList(),
                                 ),
                         )
