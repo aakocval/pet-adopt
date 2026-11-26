@@ -20,8 +20,8 @@ style:
   MagicNumber:
     # Design tokens (dp, colors) and previews are the source of truth for their numbers.
     ignorePropertyDeclaration: true
-    ignoreAnnotated: ['Preview']
+    ignoreAnnotated: ['Preview', 'PreviewLightDark']
     excludes: ['**/test/**', '**/androidTest/**', '**/designsystem/**', '**/*.kts']
   UnusedPrivateMember:
     # Previews are private and only used by tooling.
-    ignoreAnnotated: ['Preview']
+    ignoreAnnotated: ['Preview', 'PreviewLightDark']

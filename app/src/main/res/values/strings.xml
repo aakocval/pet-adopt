@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Pet Adopt</string>
+
+    <!-- Design system -->
+    <string name="ds_favorite_add">Add to favorites</string>
+    <string name="ds_favorite_remove">Remove from favorites</string>
 </resources>
