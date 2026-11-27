@@ -56,6 +56,9 @@
     <string name="profile_saved_pets_none">None yet</string>
     <string name="profile_version">Version</string>
     <string name="profile_sign_out">Sign out</string>
+    <string name="profile_show_email">Show</string>
+    <string name="profile_hide_email">Hide</string>
+    <string name="profile_reveal_title">Confirm it\'s you</string>
 
     <!-- Explore -->
     <string name="explore_title">Explore</string>
