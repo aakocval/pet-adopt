@@ -4,11 +4,13 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import io.github.aakocval.petadopt.data.local.AssetPetDataSource
+import io.github.aakocval.petadopt.data.local.PetCatalogSource
 import io.github.aakocval.petadopt.data.repository.DataStoreUserPreferencesRepository
 import io.github.aakocval.petadopt.data.repository.FakeAdoptionRepository
 import io.github.aakocval.petadopt.data.repository.FakeAuthRepository
 import io.github.aakocval.petadopt.data.repository.InMemoryFavoritesRepository
-import io.github.aakocval.petadopt.data.repository.InMemoryPetRepository
+import io.github.aakocval.petadopt.data.repository.OfflineFirstPetRepository
 import io.github.aakocval.petadopt.domain.repository.AdoptionRepository
 import io.github.aakocval.petadopt.domain.repository.AuthRepository
 import io.github.aakocval.petadopt.domain.repository.FavoritesRepository
@@ -20,7 +22,10 @@ import io.github.aakocval.petadopt.domain.repository.UserPreferencesRepository
 @InstallIn(SingletonComponent::class)
 interface DataModule {
     @Binds
-    fun bindsPetRepository(impl: InMemoryPetRepository): PetRepository
+    fun bindsPetCatalogSource(impl: AssetPetDataSource): PetCatalogSource
+
+    @Binds
+    fun bindsPetRepository(impl: OfflineFirstPetRepository): PetRepository
 
     @Binds
     fun bindsFavoritesRepository(impl: InMemoryFavoritesRepository): FavoritesRepository

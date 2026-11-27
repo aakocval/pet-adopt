@@ -6,15 +6,20 @@ import io.github.aakocval.petadopt.data.model.PetRecord
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
+/** Where the pet catalog comes from. An interface so repositories can be tested without Android assets. */
+fun interface PetCatalogSource {
+    /** Blocking I/O: call from an IO dispatcher. */
+    fun load(): List<PetRecord>
+}
+
 /** Names, ages and bios ship with the app (`assets/pets.json`), so the catalog never needs a network. */
 class AssetPetDataSource
     @Inject
     constructor(
         @param:ApplicationContext private val context: Context,
         private val json: Json,
-    ) {
-        /** Blocking I/O: call from an IO dispatcher. */
-        fun load(): List<PetRecord> =
+    ) : PetCatalogSource {
+        override fun load(): List<PetRecord> =
             context.assets
                 .open(ASSET)
                 .bufferedReader()
