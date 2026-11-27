@@ -29,6 +29,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerializationException
 import retrofit2.HttpException
 import java.io.IOException
+import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -38,7 +39,8 @@ import javax.inject.Singleton
  * 1. On first subscription, emit the bundled catalog overlaid with cached photo URLs. That's
  *    local, so the list shows instantly, with or without a network.
  * 2. Then, in the app scope, fetch photos still missing (dogs in parallel), emit again and
- *    persist the URLs. Failures leave a photo `null`; the UI shows an illustrated face.
+ *    persist the URLs. Failures leave a photo `null`; the UI shows an illustrated face, and the
+ *    next subscriber retries.
  */
 @Singleton
 class OfflineFirstPetRepository
@@ -53,11 +55,14 @@ class OfflineFirstPetRepository
         private val records = MutableStateFlow<List<PetRecord>?>(null)
         private val startLock = Mutex()
         private var started = false
+        private val refreshing = AtomicBoolean(false)
 
         override fun observePets(): Flow<List<Pet>> =
             records
-                .onStart { startOnce() }
-                .filterNotNull()
+                .onStart {
+                    startOnce()
+                    retryMissingPhotos()
+                }.filterNotNull()
                 .map { list -> list.map(PetRecord::toDomain) }
                 .distinctUntilChanged()
 
@@ -69,7 +74,22 @@ class OfflineFirstPetRepository
             if (!isFirst) return
             val cached = photoCache.read()
             records.value = withContext(ioDispatcher) { catalog.load() }.map { it.copy(photoUrl = cached[it.id]) }
-            appScope.launch { refreshMissingPhotos() }
+        }
+
+        /**
+         * Every new subscriber (e.g. returning to Browse) retries photos that are still missing, so a
+         * first launch offline heals itself once the network is back. At most one refresh runs at a time.
+         */
+        private fun retryMissingPhotos() {
+            val missing = records.value?.any { it.photoUrl == null } ?: return
+            if (!missing || !refreshing.compareAndSet(false, true)) return
+            appScope.launch {
+                try {
+                    refreshMissingPhotos()
+                } finally {
+                    refreshing.set(false)
+                }
+            }
         }
 
         /** Fetches photos for pets that don't have one yet. Safe to call again later (e.g. when back online). */
