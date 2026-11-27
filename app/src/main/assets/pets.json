@@ -35,8 +35,8 @@
       "sex": "male",
       "bio": "Nose-first explorer who loves long sniffy walks and a warm lap afterwards.",
       "shelterId": "harbor-paws",
-      "latitude": 37.7943,
-      "longitude": -122.3944,
+      "latitude": 37.8,
+      "longitude": -122.3937,
       "photoQuery": "beagle"
     },
     {
@@ -48,8 +48,8 @@
       "sex": "female",
       "bio": "Curious kitten who will supervise everything you do, especially cooking.",
       "shelterId": "maple-street",
-      "latitude": 37.7682,
-      "longitude": -122.4338
+      "latitude": 37.7739,
+      "longitude": -122.433
     },
     {
       "id": "dog-pepper",
@@ -60,8 +60,8 @@
       "sex": "female",
       "bio": "Short legs, big opinions. Great with kids and very good at fetch.",
       "shelterId": "harbor-paws",
-      "latitude": 37.7955,
-      "longitude": -122.3944,
+      "latitude": 37.7933,
+      "longitude": -122.3988,
       "photoQuery": "pembroke"
     },
     {
@@ -73,8 +73,8 @@
       "sex": "female",
       "bio": "Chatty and affectionate. Will tell you all about her day.",
       "shelterId": "second-chance",
-      "latitude": 37.7587,
-      "longitude": -122.4155
+      "latitude": 37.7644,
+      "longitude": -122.4148
     },
     {
       "id": "dog-otis",
@@ -85,8 +85,8 @@
       "sex": "male",
       "bio": "Gentle giant, house-trained, happiest snoozing at your feet.",
       "shelterId": "greenfield",
-      "latitude": 37.7828,
-      "longitude": -122.4567,
+      "latitude": 37.7885,
+      "longitude": -122.456,
       "photoQuery": "labrador"
     },
     {
@@ -98,8 +98,8 @@
       "sex": "male",
       "bio": "Goes limp when picked up. Professional napper, amateur bird watcher.",
       "shelterId": "maple-street",
-      "latitude": 37.7694,
-      "longitude": -122.4338
+      "latitude": 37.7672,
+      "longitude": -122.4381
     },
     {
       "id": "dog-maple",
@@ -110,8 +110,8 @@
       "sex": "female",
       "bio": "Independent and clever. Needs a patient human and a secure yard.",
       "shelterId": "greenfield",
-      "latitude": 37.784,
-      "longitude": -122.4567,
+      "latitude": 37.7818,
+      "longitude": -122.4611,
       "photoQuery": "shiba"
     },
     {
@@ -123,8 +123,8 @@
       "sex": "male",
       "bio": "Tiny, fast and fearless. Best paired with another playful cat.",
       "shelterId": "second-chance",
-      "latitude": 37.7599,
-      "longitude": -122.4155
+      "latitude": 37.7577,
+      "longitude": -122.4199
     },
     {
       "id": "dog-juniper",
@@ -135,8 +135,8 @@
       "sex": "female",
       "bio": "Smart and energetic. Would love an active home and a job to do.",
       "shelterId": "harbor-paws",
-      "latitude": 37.7967,
-      "longitude": -122.3944,
+      "latitude": 37.7933,
+      "longitude": -122.3886,
       "photoQuery": "collie/border"
     },
     {
@@ -148,8 +148,8 @@
       "sex": "female",
       "bio": "Calm senior who wants a sunny windowsill and quiet company.",
       "shelterId": "maple-street",
-      "latitude": 37.7706,
-      "longitude": -122.4338
+      "latitude": 37.7672,
+      "longitude": -122.4279
     },
     {
       "id": "dog-waffles",
@@ -160,8 +160,8 @@
       "sex": "male",
       "bio": "Loves blankets, burrowing and everyone he meets.",
       "shelterId": "greenfield",
-      "latitude": 37.7852,
-      "longitude": -122.4567,
+      "latitude": 37.7818,
+      "longitude": -122.4509,
       "photoQuery": "dachshund"
     },
     {
@@ -173,8 +173,8 @@
       "sex": "male",
       "bio": "Shy at first, then your shadow. Gets along with dogs.",
       "shelterId": "second-chance",
-      "latitude": 37.7611,
-      "longitude": -122.4155
+      "latitude": 37.7577,
+      "longitude": -122.4097
     }
   ]
 }
