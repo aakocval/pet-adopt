@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import io.github.aakocval.petadopt.feature.explore.ui.ExploreScreen
+import io.github.aakocval.petadopt.feature.explore.ui.ExploreRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -16,8 +16,12 @@ data object ExploreDestination
 
 fun NavController.navigateToExplore(navOptions: NavOptions? = null) = navigate(ExploreGraph, navOptions)
 
-fun NavGraphBuilder.exploreGraph() {
+fun NavGraphBuilder.exploreGraph(
+    onPetClick: (petId: String) -> Unit,
+    nestedGraphs: NavGraphBuilder.() -> Unit = {},
+) {
     navigation<ExploreGraph>(startDestination = ExploreDestination) {
-        composable<ExploreDestination> { ExploreScreen() }
+        composable<ExploreDestination> { ExploreRoute(onPetClick = onPetClick) }
+        nestedGraphs()
     }
 }

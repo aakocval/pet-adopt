@@ -22,7 +22,7 @@ import io.github.aakocval.petadopt.feature.profile.navigation.profileGraph
  * ```
  * root
  * ├── BrowseGraph ── Browse ─> PetDetail ─> Adoption (Form ─> Review ─> Success)
- * ├── ExploreGraph ─ Explore
+ * ├── ExploreGraph ─ Explore (map) ─> PetDetail ─> Adoption
  * ├── FavoritesGraph ─ Favorites ─> PetDetail ─> Adoption
  * └── ProfileGraph ── Profile ─(Saved pets)─> switch to Favorites tab
  * ```
@@ -41,7 +41,10 @@ fun AppNavHost(
             // Pet Detail and the adoption flow live inside each tab, on that tab's back stack.
             nestedGraphs = { petDetailAndAdoption(navController) },
         )
-        exploreGraph()
+        exploreGraph(
+            onPetClick = navController::navigateToPetDetail,
+            nestedGraphs = { petDetailAndAdoption(navController) },
+        )
         favoritesGraph(
             onPetClick = navController::navigateToPetDetail,
             nestedGraphs = { petDetailAndAdoption(navController) },
