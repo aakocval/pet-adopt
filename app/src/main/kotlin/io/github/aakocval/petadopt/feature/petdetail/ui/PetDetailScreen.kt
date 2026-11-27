@@ -203,6 +203,7 @@ private fun PetDetailScreenPreview() {
                             bio = "Nose-first explorer who loves long sniffy walks and a warm lap afterwards.",
                             shelterName = "Harbor Paws Rescue",
                             isFavorite = true,
+                            photoUrl = null,
                         ),
                     ),
                 onBack = {},

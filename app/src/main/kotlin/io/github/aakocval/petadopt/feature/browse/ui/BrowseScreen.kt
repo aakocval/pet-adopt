@@ -37,6 +37,7 @@ import io.github.aakocval.petadopt.core.designsystem.theme.Spacing
 import io.github.aakocval.petadopt.core.ui.PetCardUi
 import io.github.aakocval.petadopt.core.ui.PetPhoto
 import io.github.aakocval.petadopt.core.ui.petSubtitle
+import io.github.aakocval.petadopt.domain.model.Species
 import kotlinx.collections.immutable.persistentListOf
 
 /**
@@ -174,10 +175,10 @@ private fun ErrorMessage(onRetry: () -> Unit) {
 
 private val PreviewPets =
     persistentListOf(
-        PetCardUi("dog-biscuit", "Biscuit", "Beagle", ageInMonths = 26, isFavorite = true),
-        PetCardUi("cat-miso", "Miso", "Tabby", ageInMonths = 8, isFavorite = false),
-        PetCardUi("dog-pepper", "Pepper", "Corgi", ageInMonths = 50, isFavorite = false),
-        PetCardUi("cat-luna", "Luna", "Siamese", ageInMonths = 14, isFavorite = false),
+        PetCardUi("dog-biscuit", "Biscuit", "Beagle", 26, true, Species.Dog, photoUrl = null),
+        PetCardUi("cat-miso", "Miso", "Tabby", 8, false, Species.Cat, photoUrl = null),
+        PetCardUi("dog-pepper", "Pepper", "Corgi", 50, false, Species.Dog, photoUrl = null),
+        PetCardUi("cat-luna", "Luna", "Siamese", 14, false, Species.Cat, photoUrl = null),
     )
 
 @PreviewLightDark

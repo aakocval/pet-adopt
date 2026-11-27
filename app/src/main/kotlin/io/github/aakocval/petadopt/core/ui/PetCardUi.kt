@@ -13,8 +13,8 @@ data class PetCardUi(
     val breed: String,
     val ageInMonths: Int,
     val isFavorite: Boolean,
-    val species: Species = Species.Dog,
-    val photoUrl: String? = null,
+    val species: Species,
+    val photoUrl: String?,
 )
 
 fun FavoritablePet.toCardUi() =
@@ -24,4 +24,6 @@ fun FavoritablePet.toCardUi() =
         breed = pet.breed,
         ageInMonths = pet.ageInMonths,
         isFavorite = isFavorite,
+        species = pet.species,
+        photoUrl = pet.photoUrl,
     )
