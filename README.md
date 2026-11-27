@@ -4,8 +4,8 @@ A native Android showcase app in Kotlin: **MVVM with unidirectional data flow**,
 **Navigation Compose**, and a clean data layer, with security and performance treated as
 first-class concerns.
 
-> Status: early. Built milestone by milestone; see [CHANGELOG.md](CHANGELOG.md) and
-> [docs/LEARNING_PATH.md](docs/LEARNING_PATH.md) for what each step adds.
+> Status: early. Built milestone by milestone; see [CHANGELOG.md](CHANGELOG.md) for what each
+> step adds.
 
 ## Stack
 
