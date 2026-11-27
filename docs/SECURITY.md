@@ -62,14 +62,18 @@ are mapped to [OWASP MASVS v2](https://mas.owasp.org/MASVS/) categories.
   This never applies to release builds, which aren't debuggable.
 
 ### MASVS-PLATFORM: platform interaction
-- Only the launcher activity is exported. The merged manifest adds no other exported component
-  of ours.
+- Only the launcher activity is exported. In the merged release manifest the only other exported
+  component is AndroidX's `ProfileInstallReceiver`, which requires the `DUMP` permission (shell
+  and system only); `InitializationProvider` is not exported.
 - Deep links (`petadopt://pet/<id>`) are attacker-controlled input. `DeepLinkParser` is an
   allow-list: exact scheme and host, no credentials or port, one path segment validated on the
   **raw** (undecoded) path against the id format. Valid links wait behind the auth gate.
 - `FLAG_SECURE` on Profile and the adoption flow: no screenshots, no screen recording, blank in
   Recents. Reference-counted so it stays on between Form and Review.
-- One permission: `INTERNET`.
+- Permissions: `INTERNET` (photos), plus `USE_BIOMETRIC` and `USE_FINGERPRINT` added by
+  androidx.biometric (normal permissions, no runtime prompt; the fingerprint one is still needed on
+  Android 8.x) and AndroidX's signature-level `DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION`. No
+  dangerous (runtime) permissions.
 
 ### MASVS-CODE: code quality and build
 - Release: `isDebuggable = false`, R8 full mode with code and resource shrinking.

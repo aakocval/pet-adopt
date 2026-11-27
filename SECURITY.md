@@ -22,7 +22,7 @@ In short:
 - HTTPS only, system CAs only, certificate pinning for the photo API with an expiry safety net
 - Deep links validated by an allow-list before anything acts on them
 - `FLAG_SECURE` on account and application screens; optional biometric re-auth to reveal the email
-- Only the launcher activity exported; backups disabled; one permission (`INTERNET`)
+- Only the launcher activity exported; backups disabled; no dangerous (runtime) permissions
 - No logging in release builds; R8 shrinking; release signing from CI secrets, never the repo
 - gitleaks secret scanning, dependency graph + Dependabot alerts, dependency review on PRs
 - GitHub Actions pinned to commit SHAs; Gradle wrapper checksum-validated
