@@ -6,6 +6,33 @@ uses [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-11-27
+
+M7 Security hardening. Threat model and MASVS mapping in `docs/SECURITY.md`.
+
+### Security
+- Network security config: no cleartext, system CAs only in release, and certificate pinning for
+  the dog.ceo API (CA keys, primary + backup pin, fail-open expiry); a test fails CI 60 days
+  before the pins expire
+- Session, email and a (fake) access token encrypted at rest with AES-256-GCM under an Android
+  Keystore key; a DataStore migration encrypts sessions from older versions and deletes the plaintext
+- `FLAG_SECURE` on Profile and the adoption flow (reference-counted across screens)
+- Deep links (`petadopt://pet/<id>`) validated by an allow-list on the raw path before use, and
+  held until the user is signed in
+- Account email masked on Profile; revealing it requires biometric or device credential
+- `AppLogger`: logcat in debug only, no-op in release, never logs PII; R8 strips `android.util.Log`
+- Release builds: explicit `isDebuggable = false`, R8 full mode, signing from environment
+  variables or an untracked `keystore.properties`
+- CI: gitleaks secret scanning, Gradle dependency graph submission (Dependabot alerts), and
+  dependency review on pull requests
+
+### Changed
+- `MainActivity` extends `FragmentActivity` (required by `BiometricPrompt`)
+- README no longer links the learning path
+
+### Fixed
+- Deep link parsing validated the decoded path instead of the raw one
+
 ## [0.7.0] - 2026-11-27
 
 M6 Explore and data: a real data layer (bundled catalog, remote photos, offline cache) and the map.
@@ -154,7 +181,8 @@ M0 Foundations: a buildable, checked, empty app.
 - Backups disabled with explicit data extraction rules; only the launcher activity is exported
 - Secrets, keystores and `local.properties` git-ignored
 
-[Unreleased]: ../../compare/v0.7.0...HEAD
+[Unreleased]: ../../compare/v0.8.0...HEAD
+[0.8.0]: ../../compare/v0.7.0...v0.8.0
 [0.7.0]: ../../compare/v0.6.0...v0.7.0
 [0.6.0]: ../../compare/v0.5.0...v0.6.0
 [0.5.0]: ../../compare/v0.4.0...v0.5.0
