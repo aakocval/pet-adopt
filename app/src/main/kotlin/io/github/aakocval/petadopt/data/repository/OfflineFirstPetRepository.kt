@@ -3,6 +3,7 @@ package io.github.aakocval.petadopt.data.repository
 import io.github.aakocval.petadopt.core.common.AppDispatcher
 import io.github.aakocval.petadopt.core.common.ApplicationScope
 import io.github.aakocval.petadopt.core.common.Dispatcher
+import io.github.aakocval.petadopt.core.logging.AppLogger
 import io.github.aakocval.petadopt.data.local.PetCatalogSource
 import io.github.aakocval.petadopt.data.local.PhotoUrlCache
 import io.github.aakocval.petadopt.data.model.PetRecord
@@ -51,6 +52,7 @@ class OfflineFirstPetRepository
         private val photos: RemotePhotoSource,
         @param:Dispatcher(AppDispatcher.IO) private val ioDispatcher: CoroutineDispatcher,
         @param:ApplicationScope private val appScope: CoroutineScope,
+        private val logger: AppLogger,
     ) : PetRepository {
         private val records = MutableStateFlow<List<PetRecord>?>(null)
         private val startLock = Mutex()
@@ -133,11 +135,21 @@ class OfflineFirstPetRepository
         private suspend fun <T> orNull(block: suspend () -> T): T? =
             try {
                 block()
-            } catch (_: IOException) {
-                null
-            } catch (_: HttpException) {
-                null
-            } catch (_: SerializationException) {
-                null
+            } catch (e: IOException) {
+                logFailure(e)
+            } catch (e: HttpException) {
+                logFailure(e)
+            } catch (e: SerializationException) {
+                logFailure(e)
             }
+
+        // The exception type only: messages can contain URLs or response bodies.
+        private fun logFailure(error: Exception): Nothing? {
+            logger.warn(TAG, "Photo fetch failed: ${error::class.simpleName}")
+            return null
+        }
+
+        private companion object {
+            const val TAG = "Photos"
+        }
     }

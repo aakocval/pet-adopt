@@ -1,6 +1,7 @@
 package io.github.aakocval.petadopt.data.repository
 
 import app.cash.turbine.test
+import io.github.aakocval.petadopt.core.logging.NoOpLogger
 import io.github.aakocval.petadopt.data.local.PetCatalogSource
 import io.github.aakocval.petadopt.data.local.PhotoUrlCache
 import io.github.aakocval.petadopt.data.model.PetRecord
@@ -72,6 +73,7 @@ class OfflineFirstPetRepositoryTest {
             photos = RemotePhotoSource(gatedDogApi, catApi),
             ioDispatcher = UnconfinedTestDispatcher(testScheduler),
             appScope = backgroundScope,
+            logger = NoOpLogger,
         )
     }
 
