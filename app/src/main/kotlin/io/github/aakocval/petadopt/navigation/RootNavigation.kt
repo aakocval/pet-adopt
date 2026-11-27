@@ -10,6 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import io.github.aakocval.petadopt.core.deeplink.DeepLink
 import io.github.aakocval.petadopt.feature.auth.navigation.AuthGraph
 import io.github.aakocval.petadopt.feature.auth.navigation.authGraph
 import io.github.aakocval.petadopt.feature.onboarding.navigation.OnboardingGraph
@@ -40,6 +41,8 @@ val RootDestination.route: Any
 @Composable
 fun RootNavHost(
     destination: RootDestination,
+    pendingDeepLink: DeepLink? = null,
+    onDeepLinkHandled: () -> Unit = {},
     navController: NavHostController = rememberNavController(),
 ) {
     // The start destination is fixed at first composition; later changes go through switchRootTo.
@@ -47,7 +50,7 @@ fun RootNavHost(
     NavHost(navController = navController, startDestination = startDestination) {
         onboardingGraph()
         authGraph()
-        composable<MainDestination> { PetApp() }
+        composable<MainDestination> { PetApp(pendingDeepLink = pendingDeepLink, onDeepLinkHandled = onDeepLinkHandled) }
     }
     LaunchedEffect(destination) { navController.switchRootTo(destination.route) }
 }
