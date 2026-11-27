@@ -6,6 +6,30 @@ uses [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-11-27
+
+M5 Flow state: a three-step adoption application with one shared, graph-scoped ViewModel.
+
+### Added
+- Adoption flow (Form -> Review -> Success) as a nested graph inside each tab, started from
+  "Apply to adopt" on Pet Detail; the bottom bar hides while it's open
+- `AdoptionViewModel` scoped to the flow's nav graph entry, with the pet id passed by assisted
+  injection; the draft is written through to `SavedStateHandle` and survives process death
+- Domain rules: `ApplicationInputSanitizer` (per keystroke) and `AdoptionApplicationValidator`
+  (on continue and again before submit), plus a normalized `AdoptionApplication` model
+- Form with autofill hints, live errors after the first attempt, character counter, home type
+  chips, other-pets switch and home-visit consent; Review summary; Success with a reference
+- Fake adoption repository returning readable references (no 0/O or 1/I)
+- Tests for the sanitizer, validator, repository and ViewModel (including a process-death restore)
+
+### Changed
+- Commit messages now use `[Type] Description` (e.g. `[Feat] Add ...`)
+
+### Fixed
+- The adoption form ignored input until the pet had loaded
+- Fast typing in the adoption form could scramble text (state is now updated synchronously)
+- The review message card now spans the full width
+
 ## [0.5.0] - 2026-11-26
 
 M4 Nested graphs: onboarding, an auth gate, and a root that switches graphs.
@@ -105,7 +129,8 @@ M0 Foundations: a buildable, checked, empty app.
 - Backups disabled with explicit data extraction rules; only the launcher activity is exported
 - Secrets, keystores and `local.properties` git-ignored
 
-[Unreleased]: ../../compare/v0.5.0...HEAD
+[Unreleased]: ../../compare/v0.6.0...HEAD
+[0.6.0]: ../../compare/v0.5.0...v0.6.0
 [0.5.0]: ../../compare/v0.4.0...v0.5.0
 [0.4.0]: ../../compare/v0.3.0...v0.4.0
 [0.3.0]: ../../compare/v0.2.0...v0.3.0

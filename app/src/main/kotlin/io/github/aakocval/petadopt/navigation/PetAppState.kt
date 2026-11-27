@@ -11,6 +11,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import io.github.aakocval.petadopt.feature.adoption.navigation.AdoptionGraph
 import io.github.aakocval.petadopt.feature.browse.navigation.navigateToBrowse
 import io.github.aakocval.petadopt.feature.explore.navigation.navigateToExplore
 import io.github.aakocval.petadopt.feature.favorites.navigation.navigateToFavorites
@@ -30,6 +31,13 @@ class PetAppState(
             val destination by navController.currentBackStackEntryAsState()
             val hierarchy = destination?.destination?.hierarchy ?: return null
             return TopLevelDestination.entries.firstOrNull { tab -> hierarchy.any { it.hasRoute(tab.graph::class) } }
+        }
+
+    /** The tab bar steps aside during focused flows (the adoption application) so it can't interrupt them. */
+    val shouldShowBottomBar: Boolean
+        @Composable get() {
+            val entry by navController.currentBackStackEntryAsState()
+            return entry?.destination?.hierarchy?.none { it.hasRoute(AdoptionGraph::class) } ?: true
         }
 
     /**

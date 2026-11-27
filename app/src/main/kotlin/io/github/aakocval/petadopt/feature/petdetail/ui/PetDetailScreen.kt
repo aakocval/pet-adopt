@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -45,13 +47,26 @@ fun PetDetailScreen(
     uiState: PetDetailUiState,
     onBack: () -> Unit,
     onToggleFavorite: (Boolean) -> Unit,
+    onApply: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         when (uiState) {
-            PetDetailUiState.Loading -> CircularProgressIndicator(Modifier.align(Alignment.Center))
-            PetDetailUiState.NotFound -> NotFound(Modifier.align(Alignment.Center))
-            is PetDetailUiState.Success -> PetDetailContent(pet = uiState.pet, onToggleFavorite = onToggleFavorite)
+            PetDetailUiState.Loading -> {
+                CircularProgressIndicator(Modifier.align(Alignment.Center))
+            }
+
+            PetDetailUiState.NotFound -> {
+                NotFound(Modifier.align(Alignment.Center))
+            }
+
+            is PetDetailUiState.Success -> {
+                PetDetailContent(
+                    pet = uiState.pet,
+                    onToggleFavorite = onToggleFavorite,
+                    onApply = onApply,
+                )
+            }
         }
         BackButton(onClick = onBack, modifier = Modifier.padding(Spacing.md))
     }
@@ -61,6 +76,7 @@ fun PetDetailScreen(
 private fun PetDetailContent(
     pet: PetDetailUi,
     onToggleFavorite: (Boolean) -> Unit,
+    onApply: () -> Unit,
 ) {
     val tileColor = PetAdoptTheme.colors.tileFor(pet.id)
     Column(
@@ -124,6 +140,15 @@ private fun PetDetailContent(
                     iconBackground = tileColor,
                 )
             }
+            Button(
+                onClick = onApply,
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = Spacing.sm)
+                        .height(52.dp),
+                shape = MaterialTheme.shapes.medium,
+            ) { Text(stringResource(R.string.pet_detail_apply, pet.name)) }
         }
     }
 }
@@ -182,6 +207,7 @@ private fun PetDetailScreenPreview() {
                     ),
                 onBack = {},
                 onToggleFavorite = {},
+                onApply = {},
             )
         }
     }
@@ -192,7 +218,7 @@ private fun PetDetailScreenPreview() {
 private fun PetDetailNotFoundPreview() {
     PetAdoptTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
-            PetDetailScreen(uiState = PetDetailUiState.NotFound, onBack = {}, onToggleFavorite = {})
+            PetDetailScreen(uiState = PetDetailUiState.NotFound, onBack = {}, onToggleFavorite = {}, onApply = {})
         }
     }
 }
