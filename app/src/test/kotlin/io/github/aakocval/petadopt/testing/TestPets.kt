@@ -1,5 +1,6 @@
 package io.github.aakocval.petadopt.testing
 
+import io.github.aakocval.petadopt.domain.model.GeoPoint
 import io.github.aakocval.petadopt.domain.model.Pet
 import io.github.aakocval.petadopt.domain.model.Sex
 import io.github.aakocval.petadopt.domain.model.Species
@@ -19,4 +20,5 @@ fun testPet(
     sex = Sex.Male,
     bio = "A good pet.",
     shelterName = "Test Shelter",
+    location = GeoPoint(37.77, -122.42),
 )

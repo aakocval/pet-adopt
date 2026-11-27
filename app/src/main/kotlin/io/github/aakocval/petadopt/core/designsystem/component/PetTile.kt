@@ -1,5 +1,7 @@
 package io.github.aakocval.petadopt.core.designsystem.component
 
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -92,9 +94,15 @@ fun PetTile(
     }
 }
 
-/** Offline / loading stand-in for a pet photo: a paw on a lighter wash of the tile. */
+/**
+ * Stand-in for a pet photo while it loads, when it fails, or offline: an illustrated [face]
+ * (or a paw if none is given) on a lighter wash of the tile.
+ */
 @Composable
-fun PetPlaceholder(modifier: Modifier = Modifier) {
+fun PetPlaceholder(
+    modifier: Modifier = Modifier,
+    @DrawableRes face: Int? = null,
+) {
     Box(
         modifier =
             modifier
@@ -102,14 +110,25 @@ fun PetPlaceholder(modifier: Modifier = Modifier) {
                 .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.55f)),
         contentAlignment = Alignment.Center,
     ) {
-        Icon(
-            painter = painterResource(PetAdoptIcons.Paw),
-            contentDescription = null, // decorative; the tile's name describes it
-            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
-            modifier = Modifier.size(48.dp),
-        )
+        if (face != null) {
+            // Decorative: the tile's name describes it.
+            Image(
+                painter = painterResource(face),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(FACE_FRACTION),
+            )
+        } else {
+            Icon(
+                painter = painterResource(PetAdoptIcons.Paw),
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
+                modifier = Modifier.size(48.dp),
+            )
+        }
     }
 }
+
+private const val FACE_FRACTION = 0.6f
 
 @PreviewLightDark
 @Composable
@@ -125,6 +144,7 @@ private fun PetTilePreview() {
                     onClick = {},
                     onToggleFavorite = {},
                     modifier = Modifier.width(170.dp),
+                    image = { PetPlaceholder(face = PetAdoptIcons.DogFace) },
                 )
                 PetTile(
                     name = "Miso",

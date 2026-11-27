@@ -32,7 +32,9 @@ import io.github.aakocval.petadopt.core.designsystem.icon.PetAdoptIcons
 import io.github.aakocval.petadopt.core.designsystem.theme.PetAdoptTheme
 import io.github.aakocval.petadopt.core.designsystem.theme.Spacing
 import io.github.aakocval.petadopt.core.ui.PetCardUi
+import io.github.aakocval.petadopt.core.ui.PetPhoto
 import io.github.aakocval.petadopt.core.ui.petSubtitle
+import io.github.aakocval.petadopt.domain.model.Species
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
@@ -83,6 +85,7 @@ fun FavoritesScreen(
                         isFavorite = true,
                         onClick = { onPetClick(pet.id) },
                         onToggleFavorite = { onRemoveFavorite(pet.id) },
+                        image = { PetPhoto(photoUrl = pet.photoUrl, species = pet.species) },
                         // Animates the grid when a favorite is removed.
                         modifier = Modifier.animateItem(),
                     )
@@ -124,8 +127,8 @@ private fun FavoritesScreenPreview() {
                 uiState =
                     FavoritesUiState.Pets(
                         persistentListOf(
-                            PetCardUi("dog-biscuit", "Biscuit", "Beagle", ageInMonths = 26, isFavorite = true),
-                            PetCardUi("cat-luna", "Luna", "Siamese", ageInMonths = 14, isFavorite = true),
+                            PetCardUi("dog-biscuit", "Biscuit", "Beagle", 26, true, Species.Dog, photoUrl = null),
+                            PetCardUi("cat-luna", "Luna", "Siamese", 14, true, Species.Cat, photoUrl = null),
                         ),
                     ),
                 onPetClick = {},

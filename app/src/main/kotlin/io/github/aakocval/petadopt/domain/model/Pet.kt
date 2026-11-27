@@ -15,6 +15,10 @@ data class Pet(
     val sex: Sex,
     val bio: String,
     val shelterName: String,
+    /** Where the pet is waiting (its shelter), for the Explore map. */
+    val location: GeoPoint,
+    /** A remote photo, or `null` until one is fetched (the UI shows an illustrated face meanwhile). */
+    val photoUrl: String? = null,
 ) {
     init {
         require(id.isNotBlank()) { "Pet id must not be blank" }

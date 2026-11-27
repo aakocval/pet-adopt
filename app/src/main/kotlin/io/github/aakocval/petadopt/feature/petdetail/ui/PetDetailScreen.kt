@@ -33,10 +33,10 @@ import io.github.aakocval.petadopt.R
 import io.github.aakocval.petadopt.core.designsystem.component.BackButton
 import io.github.aakocval.petadopt.core.designsystem.component.FavoriteButton
 import io.github.aakocval.petadopt.core.designsystem.component.ListRow
-import io.github.aakocval.petadopt.core.designsystem.component.PetPlaceholder
 import io.github.aakocval.petadopt.core.designsystem.icon.PetAdoptIcons
 import io.github.aakocval.petadopt.core.designsystem.theme.PetAdoptTheme
 import io.github.aakocval.petadopt.core.designsystem.theme.Spacing
+import io.github.aakocval.petadopt.core.ui.PetPhoto
 import io.github.aakocval.petadopt.core.ui.petAgeLabel
 import io.github.aakocval.petadopt.domain.model.Sex
 import io.github.aakocval.petadopt.domain.model.Species
@@ -101,7 +101,7 @@ private fun PetDetailContent(
                         .heightIn(max = MaxPhotoHeight)
                         .aspectRatio(PHOTO_ASPECT_RATIO, matchHeightConstraintsFirst = true)
                         .clip(MaterialTheme.shapes.large),
-            ) { PetPlaceholder() }
+            ) { PetPhoto(photoUrl = pet.photoUrl, species = pet.species) }
         }
         Column(
             modifier = Modifier.padding(Spacing.screenHorizontal),
@@ -203,6 +203,7 @@ private fun PetDetailScreenPreview() {
                             bio = "Nose-first explorer who loves long sniffy walks and a warm lap afterwards.",
                             shelterName = "Harbor Paws Rescue",
                             isFavorite = true,
+                            photoUrl = null,
                         ),
                     ),
                 onBack = {},

@@ -1,0 +1,180 @@
+{
+  "shelters": [
+    {
+      "id": "harbor-paws",
+      "name": "Harbor Paws Rescue",
+      "latitude": 37.7955,
+      "longitude": -122.3937
+    },
+    {
+      "id": "maple-street",
+      "name": "Maple Street Shelter",
+      "latitude": 37.7694,
+      "longitude": -122.433
+    },
+    {
+      "id": "second-chance",
+      "name": "Second Chance Cats",
+      "latitude": 37.7599,
+      "longitude": -122.4148
+    },
+    {
+      "id": "greenfield",
+      "name": "Greenfield Animal Haven",
+      "latitude": 37.784,
+      "longitude": -122.456
+    }
+  ],
+  "pets": [
+    {
+      "id": "dog-biscuit",
+      "name": "Biscuit",
+      "species": "dog",
+      "breed": "Beagle",
+      "ageInMonths": 26,
+      "sex": "male",
+      "bio": "Nose-first explorer who loves long sniffy walks and a warm lap afterwards.",
+      "shelterId": "harbor-paws",
+      "latitude": 37.8,
+      "longitude": -122.3937,
+      "photoQuery": "beagle"
+    },
+    {
+      "id": "cat-miso",
+      "name": "Miso",
+      "species": "cat",
+      "breed": "Tabby",
+      "ageInMonths": 8,
+      "sex": "female",
+      "bio": "Curious kitten who will supervise everything you do, especially cooking.",
+      "shelterId": "maple-street",
+      "latitude": 37.7739,
+      "longitude": -122.433
+    },
+    {
+      "id": "dog-pepper",
+      "name": "Pepper",
+      "species": "dog",
+      "breed": "Corgi",
+      "ageInMonths": 50,
+      "sex": "female",
+      "bio": "Short legs, big opinions. Great with kids and very good at fetch.",
+      "shelterId": "harbor-paws",
+      "latitude": 37.7933,
+      "longitude": -122.3988,
+      "photoQuery": "pembroke"
+    },
+    {
+      "id": "cat-luna",
+      "name": "Luna",
+      "species": "cat",
+      "breed": "Siamese",
+      "ageInMonths": 14,
+      "sex": "female",
+      "bio": "Chatty and affectionate. Will tell you all about her day.",
+      "shelterId": "second-chance",
+      "latitude": 37.7644,
+      "longitude": -122.4148
+    },
+    {
+      "id": "dog-otis",
+      "name": "Otis",
+      "species": "dog",
+      "breed": "Labrador",
+      "ageInMonths": 72,
+      "sex": "male",
+      "bio": "Gentle giant, house-trained, happiest snoozing at your feet.",
+      "shelterId": "greenfield",
+      "latitude": 37.7885,
+      "longitude": -122.456,
+      "photoQuery": "labrador"
+    },
+    {
+      "id": "cat-tofu",
+      "name": "Tofu",
+      "species": "cat",
+      "breed": "Ragdoll",
+      "ageInMonths": 36,
+      "sex": "male",
+      "bio": "Goes limp when picked up. Professional napper, amateur bird watcher.",
+      "shelterId": "maple-street",
+      "latitude": 37.7672,
+      "longitude": -122.4381
+    },
+    {
+      "id": "dog-maple",
+      "name": "Maple",
+      "species": "dog",
+      "breed": "Shiba Inu",
+      "ageInMonths": 18,
+      "sex": "female",
+      "bio": "Independent and clever. Needs a patient human and a secure yard.",
+      "shelterId": "greenfield",
+      "latitude": 37.7818,
+      "longitude": -122.4611,
+      "photoQuery": "shiba"
+    },
+    {
+      "id": "cat-pixel",
+      "name": "Pixel",
+      "species": "cat",
+      "breed": "Tuxedo",
+      "ageInMonths": 5,
+      "sex": "male",
+      "bio": "Tiny, fast and fearless. Best paired with another playful cat.",
+      "shelterId": "second-chance",
+      "latitude": 37.7577,
+      "longitude": -122.4199
+    },
+    {
+      "id": "dog-juniper",
+      "name": "Juniper",
+      "species": "dog",
+      "breed": "Border Collie",
+      "ageInMonths": 30,
+      "sex": "female",
+      "bio": "Smart and energetic. Would love an active home and a job to do.",
+      "shelterId": "harbor-paws",
+      "latitude": 37.7933,
+      "longitude": -122.3886,
+      "photoQuery": "collie/border"
+    },
+    {
+      "id": "cat-olive",
+      "name": "Olive",
+      "species": "cat",
+      "breed": "Calico",
+      "ageInMonths": 96,
+      "sex": "female",
+      "bio": "Calm senior who wants a sunny windowsill and quiet company.",
+      "shelterId": "maple-street",
+      "latitude": 37.7672,
+      "longitude": -122.4279
+    },
+    {
+      "id": "dog-waffles",
+      "name": "Waffles",
+      "species": "dog",
+      "breed": "Dachshund",
+      "ageInMonths": 10,
+      "sex": "male",
+      "bio": "Loves blankets, burrowing and everyone he meets.",
+      "shelterId": "greenfield",
+      "latitude": 37.7818,
+      "longitude": -122.4509,
+      "photoQuery": "dachshund"
+    },
+    {
+      "id": "cat-sage",
+      "name": "Sage",
+      "species": "cat",
+      "breed": "Russian Blue",
+      "ageInMonths": 42,
+      "sex": "male",
+      "bio": "Shy at first, then your shadow. Gets along with dogs.",
+      "shelterId": "second-chance",
+      "latitude": 37.7577,
+      "longitude": -122.4097
+    }
+  ]
+}

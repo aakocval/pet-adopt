@@ -60,7 +60,8 @@
     <!-- Explore -->
     <string name="explore_title">Explore</string>
     <string name="explore_subtitle">Shelters near you</string>
-    <string name="explore_placeholder">The shelter map is on its way.</string>
+    <string name="explore_hint">Tap a pin to meet a pet</string>
+    <string name="explore_open_pet">Open %1$s</string>
 
     <!-- Onboarding -->
     <string name="onboarding_page1_title">Meet your new best friend</string>
