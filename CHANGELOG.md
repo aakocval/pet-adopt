@@ -6,6 +6,31 @@ uses [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-11-27
+
+M6 Explore and data: a real data layer (bundled catalog, remote photos, offline cache) and the map.
+
+### Added
+- Pet catalog (names, ages, bios, shelters, coordinates) loaded from `assets/pets.json`
+- Remote photos: Dog CEO (by breed) and Cataas through Retrofit + kotlinx.serialization, with
+  allow-listed request paths and HTTPS host checks on every returned URL
+- `OfflineFirstPetRepository`: emits the local catalog immediately, fetches missing photos in an
+  app-scoped coroutine (dogs in parallel), caches photo URLs in a file, and retries on the next
+  subscription after an offline start
+- Coil 3 image loader sharing the app's OkHttp client, with memory and disk caches and crossfade,
+  created lazily on first use
+- Illustrated dog and cat placeholder faces (original vector drawables) under every photo
+- Explore: `MapProvider` interface with a Compose Canvas mock map (roads, parks, water, pins), a
+  pet card for the selected pin, and Pet Detail inside the Explore tab; see `docs/MAP.md`
+- `INTERNET` permission (the only permission the app requests)
+
+### Removed
+- In-memory pet repository and hard-coded seed data
+
+### Fixed
+- Tiles and Pet Detail dropped the species and photo URL (cats showed dog faces, no photos)
+- Map pins for pets at the same shelter overlapped
+
 ## [0.6.0] - 2026-11-27
 
 M5 Flow state: a three-step adoption application with one shared, graph-scoped ViewModel.
@@ -129,7 +154,8 @@ M0 Foundations: a buildable, checked, empty app.
 - Backups disabled with explicit data extraction rules; only the launcher activity is exported
 - Secrets, keystores and `local.properties` git-ignored
 
-[Unreleased]: ../../compare/v0.6.0...HEAD
+[Unreleased]: ../../compare/v0.7.0...HEAD
+[0.7.0]: ../../compare/v0.6.0...v0.7.0
 [0.6.0]: ../../compare/v0.5.0...v0.6.0
 [0.5.0]: ../../compare/v0.4.0...v0.5.0
 [0.4.0]: ../../compare/v0.3.0...v0.4.0

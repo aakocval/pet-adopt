@@ -194,3 +194,37 @@ PetDetail ─(Apply)─> AdoptionGraph(petId)          ← owns AdoptionViewMode
 - **Steps as events, exits as navigation rules.** The ViewModel emits `ShowReview` and
   `Submitted`; the graph decides where to go. Reaching Success pops Form and Review, so Back can't
   reopen a sent application.
+
+## M6 Explore and data (v0.7.0)
+
+**What this milestone teaches:** how to build an offline-first data layer that's honest about
+the network, and how to hide a third-party UI dependency (a map) behind an interface.
+
+```
+OfflineFirstPetRepository
+├── PetCatalogSource ── assets/pets.json          (always local, instant)
+├── PhotoUrlCache ───── files/pet_photo_urls.json (id -> URL, survives restarts)
+└── RemotePhotoSource ─ Dog CEO + Cataas (Retrofit) ── Coil disk cache holds the bytes
+```
+
+- **Local first, network second.** The first emission is the bundled catalog plus cached photo
+  URLs, so the list appears instantly with or without a connection. Photos are fetched afterwards
+  in an `@ApplicationScope` coroutine (so leaving a screen doesn't cancel them), dogs in
+  parallel with `async`/`awaitAll`.
+- **Fail soft, and narrowly.** Only network, HTTP and malformed-response errors become "no photo";
+  anything else is a bug and propagates. A pet without a photo shows an illustrated face, and the
+  next subscriber retries, so an offline first launch heals itself.
+- **Cache what's expensive, not what's authoritative.** Only photo URLs are cached. The catalog
+  always comes from the app, so an update to `pets.json` in a new release is never shadowed by a
+  stale cache. Writes are atomic (temp file + rename).
+- **Treat API responses as untrusted input.** The breed path is allow-listed before it's put in a
+  URL (it's sent `encoded = true`), and returned image URLs must be HTTPS on the expected host.
+- **One OkHttp client.** Retrofit and Coil share it: one connection pool, one place to add
+  certificate pinning in M7. Coil's loader is built lazily (`dagger.Lazy`), keeping app startup empty.
+- **A map behind an interface.** `MapProvider` has one `@Composable` function. The Canvas mock
+  needs no API key; Google Maps or MapLibre is one new class and one changed Hilt binding
+  (`docs/MAP.md`). The Canvas exposes each pin to TalkBack as a custom action.
+- **Defaults can hide bugs.** `PetCardUi` briefly had default values for `species` and
+  `photoUrl`. A mapper silently skipped them, every test still passed, and on a device every cat
+  had a dog face and no tile had a photo. Removing the defaults made the compiler point at every
+  call site; a regression test now pins the mapping.
