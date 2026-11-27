@@ -1,5 +1,6 @@
 package io.github.aakocval.petadopt.data.local
 
+import io.github.aakocval.petadopt.domain.model.GeoPoint
 import io.github.aakocval.petadopt.domain.model.Pet
 import io.github.aakocval.petadopt.domain.model.Sex
 import io.github.aakocval.petadopt.domain.model.Species
@@ -20,6 +21,7 @@ internal object MockPets {
                 sex = Sex.Male,
                 bio = "Nose-first explorer who loves long sniffy walks and a warm lap afterwards.",
                 shelterName = "Harbor Paws Rescue",
+                location = GeoPoint(37.7943, -122.3944),
             ),
             Pet(
                 id = "cat-miso",
@@ -30,6 +32,7 @@ internal object MockPets {
                 sex = Sex.Female,
                 bio = "Curious kitten who will supervise everything you do, especially cooking.",
                 shelterName = "Maple Street Shelter",
+                location = GeoPoint(37.7682, -122.4338),
             ),
             Pet(
                 id = "dog-pepper",
@@ -40,6 +43,7 @@ internal object MockPets {
                 sex = Sex.Female,
                 bio = "Short legs, big opinions. Great with kids and very good at fetch.",
                 shelterName = "Harbor Paws Rescue",
+                location = GeoPoint(37.7955, -122.3944),
             ),
             Pet(
                 id = "cat-luna",
@@ -50,6 +54,7 @@ internal object MockPets {
                 sex = Sex.Female,
                 bio = "Chatty and affectionate. Will tell you all about her day.",
                 shelterName = "Second Chance Cats",
+                location = GeoPoint(37.7587, -122.4155),
             ),
             Pet(
                 id = "dog-otis",
@@ -60,6 +65,7 @@ internal object MockPets {
                 sex = Sex.Male,
                 bio = "Gentle giant, house-trained, happiest snoozing at your feet.",
                 shelterName = "Greenfield Animal Haven",
+                location = GeoPoint(37.7828, -122.4567),
             ),
             Pet(
                 id = "cat-tofu",
@@ -70,6 +76,7 @@ internal object MockPets {
                 sex = Sex.Male,
                 bio = "Goes limp when picked up. Professional napper, amateur bird watcher.",
                 shelterName = "Maple Street Shelter",
+                location = GeoPoint(37.7694, -122.4338),
             ),
             Pet(
                 id = "dog-maple",
@@ -80,6 +87,7 @@ internal object MockPets {
                 sex = Sex.Female,
                 bio = "Independent and clever. Needs a patient human and a secure yard.",
                 shelterName = "Greenfield Animal Haven",
+                location = GeoPoint(37.7840, -122.4567),
             ),
             Pet(
                 id = "cat-pixel",
@@ -90,6 +98,7 @@ internal object MockPets {
                 sex = Sex.Male,
                 bio = "Tiny, fast and fearless. Best paired with another playful cat.",
                 shelterName = "Second Chance Cats",
+                location = GeoPoint(37.7599, -122.4155),
             ),
             Pet(
                 id = "dog-juniper",
@@ -100,6 +109,7 @@ internal object MockPets {
                 sex = Sex.Female,
                 bio = "Smart and energetic. Would love an active home and a job to do.",
                 shelterName = "Harbor Paws Rescue",
+                location = GeoPoint(37.7967, -122.3944),
             ),
             Pet(
                 id = "cat-olive",
@@ -110,6 +120,7 @@ internal object MockPets {
                 sex = Sex.Female,
                 bio = "Calm senior who wants a sunny windowsill and quiet company.",
                 shelterName = "Maple Street Shelter",
+                location = GeoPoint(37.7706, -122.4338),
             ),
             Pet(
                 id = "dog-waffles",
@@ -120,6 +131,7 @@ internal object MockPets {
                 sex = Sex.Male,
                 bio = "Loves blankets, burrowing and everyone he meets.",
                 shelterName = "Greenfield Animal Haven",
+                location = GeoPoint(37.7852, -122.4567),
             ),
             Pet(
                 id = "cat-sage",
@@ -130,6 +142,7 @@ internal object MockPets {
                 sex = Sex.Male,
                 bio = "Shy at first, then your shadow. Gets along with dogs.",
                 shelterName = "Second Chance Cats",
+                location = GeoPoint(37.7611, -122.4155),
             ),
         )
 }
