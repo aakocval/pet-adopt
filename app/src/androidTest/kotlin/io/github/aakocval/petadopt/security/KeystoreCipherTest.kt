@@ -4,7 +4,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import io.github.aakocval.petadopt.core.security.AesGcmCipher
 import io.github.aakocval.petadopt.core.security.KeystoreKeys
 import org.junit.Assert.assertArrayEquals
-import org.junit.Assert.assertSame
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,10 +24,12 @@ class KeystoreCipherTest {
 
     @Test
     fun theKeyIsCreatedOnceAndReused() {
-        cipher.encrypt(byteArrayOf(1))
-        val keyStore = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
-        assertTrue(keyStore.containsAlias(alias))
-        assertSame(keyStore.getKey(alias, null)::class, KeystoreKeys.getOrCreateAesKey(alias)::class)
+        val ciphertext = cipher.encrypt("session".toByteArray())
+
+        // A fresh cipher that looks the key up again must decrypt it: the key was reused, not regenerated.
+        val later = AesGcmCipher { KeystoreKeys.getOrCreateAesKey(alias) }
+        assertArrayEquals("session".toByteArray(), later.decrypt(ciphertext))
+        assertTrue(KeyStore.getInstance("AndroidKeyStore").apply { load(null) }.containsAlias(alias))
     }
 
     @Test(expected = AEADBadTagException::class)
