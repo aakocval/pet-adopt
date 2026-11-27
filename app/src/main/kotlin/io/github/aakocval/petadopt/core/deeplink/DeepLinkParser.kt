@@ -44,8 +44,10 @@ object DeepLinkParser {
         return expectedTarget && noExtras
     }
 
+    // rawPath, not path: validate exactly what was sent. Percent-encoding never matches the id pattern,
+    // so encoded tricks are rejected instead of being decoded into something that passes.
     private fun singlePathSegment(uri: URI): String? =
-        uri.path
+        uri.rawPath
             .orEmpty()
             .trim('/')
             .split('/')
