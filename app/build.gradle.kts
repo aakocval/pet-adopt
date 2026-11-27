@@ -1,9 +1,44 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+}
+
+/**
+ * Release signing comes from the environment (CI secrets) or an untracked keystore.properties
+ * (local). Neither is in the repo. Without them the release build is simply unsigned.
+ */
+data class ReleaseSigning(
+    val storeFile: String,
+    val storePassword: String,
+    val keyAlias: String,
+    val keyPassword: String,
+)
+
+fun releaseSigningFromEnv(): ReleaseSigning? {
+    val env = { name: String -> providers.environmentVariable(name).orNull }
+    val storeFile = env("PETADOPT_KEYSTORE_FILE") ?: return null
+    return ReleaseSigning(
+        storeFile = storeFile,
+        storePassword = requireNotNull(env("PETADOPT_KEYSTORE_PASSWORD")) { "PETADOPT_KEYSTORE_PASSWORD missing" },
+        keyAlias = requireNotNull(env("PETADOPT_KEY_ALIAS")) { "PETADOPT_KEY_ALIAS missing" },
+        keyPassword = requireNotNull(env("PETADOPT_KEY_PASSWORD")) { "PETADOPT_KEY_PASSWORD missing" },
+    )
+}
+
+fun releaseSigningFromFile(): ReleaseSigning? {
+    val file = rootProject.file("keystore.properties").takeIf { it.exists() } ?: return null
+    val props = Properties().apply { file.inputStream().use(::load) }
+    return ReleaseSigning(
+        storeFile = props.getProperty("storeFile"),
+        storePassword = props.getProperty("storePassword"),
+        keyAlias = props.getProperty("keyAlias"),
+        keyPassword = props.getProperty("keyPassword"),
+    )
 }
 
 android {
@@ -17,18 +52,32 @@ android {
         applicationId = "io.github.aakocval.petadopt"
         minSdk = 26
         targetSdk = 37
-        versionCode = 7
-        versionName = "0.7.0"
+        versionCode = 8
+        versionName = "0.8.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    val signing = releaseSigningFromEnv() ?: releaseSigningFromFile()
+    signingConfigs {
+        if (signing != null) {
+            create("release") {
+                storeFile = file(signing.storeFile)
+                storePassword = signing.storePassword
+                keyAlias = signing.keyAlias
+                keyPassword = signing.keyPassword
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // Hardened and tuned in M7 (security) and M8 (size).
+            isDebuggable = false
+            // R8 full mode (AGP default): shrink, optimize and obfuscate code, then drop unused resources.
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.findByName("release")
         }
     }
 
@@ -66,6 +115,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.biometric)
+    implementation(libs.androidx.fragment)
 
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)

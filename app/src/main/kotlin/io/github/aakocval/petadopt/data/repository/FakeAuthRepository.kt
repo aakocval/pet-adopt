@@ -1,20 +1,15 @@
 package io.github.aakocval.petadopt.data.repository
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.emptyPreferences
-import androidx.datastore.preferences.core.stringPreferencesKey
+import io.github.aakocval.petadopt.data.local.FakeTokens
+import io.github.aakocval.petadopt.data.local.SecureSessionStore
+import io.github.aakocval.petadopt.data.local.StoredSession
 import io.github.aakocval.petadopt.domain.model.User
 import io.github.aakocval.petadopt.domain.repository.AuthRepository
 import io.github.aakocval.petadopt.domain.repository.SignInResult
 import io.github.aakocval.petadopt.domain.validation.PasswordPolicy
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
-import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -22,22 +17,19 @@ import javax.inject.Singleton
  * Offline stand-in for a real auth backend: any well-formed email with a password of at least
  * [PasswordPolicy.MIN_LENGTH] characters signs in, after a short simulated network delay.
  *
- * Only the display name and email are persisted, so the session survives restarts. No password
- * or token is ever stored. M7 moves session data into Keystore-backed encrypted storage.
+ * Like a real backend it issues an access token. The token, email and name are stored only
+ * encrypted with a Keystore-backed key ([SecureSessionStore]); the password is never stored.
  */
 @Singleton
 class FakeAuthRepository
     @Inject
     constructor(
-        private val dataStore: DataStore<Preferences>,
+        private val sessionStore: SecureSessionStore,
     ) : AuthRepository {
         override val currentUser: Flow<User?> =
-            dataStore.data
-                .catch { error -> if (error is IOException) emit(emptyPreferences()) else throw error }
-                .map { prefs ->
-                    val email = prefs[SessionEmail] ?: return@map null
-                    User(displayName = prefs[SessionName] ?: displayNameFor(email), email = email)
-                }.distinctUntilChanged()
+            sessionStore.session.map { session ->
+                session?.let { User(displayName = it.displayName, email = it.email) }
+            }
 
         override suspend fun signIn(
             email: String,
@@ -46,24 +38,18 @@ class FakeAuthRepository
             delay(SIMULATED_LATENCY_MILLIS)
             if (!PasswordPolicy.isLongEnough(password) || !email.contains('@')) return SignInResult.InvalidCredentials
             val user = User(displayName = displayNameFor(email), email = email)
-            dataStore.edit {
-                it[SessionEmail] = user.email
-                it[SessionName] = user.displayName
-            }
+            sessionStore.save(
+                StoredSession(displayName = user.displayName, email = user.email, accessToken = FakeTokens.newToken()),
+            )
             return SignInResult.Success(user)
         }
 
         override suspend fun signOut() {
-            dataStore.edit {
-                it.remove(SessionEmail)
-                it.remove(SessionName)
-            }
+            sessionStore.clear()
         }
 
         companion object {
             private const val SIMULATED_LATENCY_MILLIS = 600L
-            private val SessionEmail = stringPreferencesKey("session_email")
-            private val SessionName = stringPreferencesKey("session_display_name")
 
             /** "alex.morgan@example.com" -> "Alex". */
             internal fun displayNameFor(email: String): String =

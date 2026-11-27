@@ -1,11 +1,15 @@
 package io.github.aakocval.petadopt.data.repository
 
 import app.cash.turbine.test
+import io.github.aakocval.petadopt.data.local.SecureSessionStore
+import io.github.aakocval.petadopt.data.local.SessionCodec
 import io.github.aakocval.petadopt.domain.model.User
 import io.github.aakocval.petadopt.domain.repository.SignInResult
+import io.github.aakocval.petadopt.testing.testCipher
 import io.github.aakocval.petadopt.testing.testPreferencesDataStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
+import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
@@ -21,7 +25,10 @@ class FakeAuthRepositoryTest {
     @Test
     fun `sign in persists the session and sign out clears it`() =
         runTest {
-            val repository = FakeAuthRepository(testPreferencesDataStore(directory))
+            val repository =
+                FakeAuthRepository(
+                    SecureSessionStore(testPreferencesDataStore(directory), SessionCodec(testCipher(), Json)),
+                )
             repository.currentUser.test {
                 assertNull(awaitItem())
 
@@ -38,7 +45,10 @@ class FakeAuthRepositoryTest {
     @Test
     fun `short password is rejected and nothing is stored`() =
         runTest {
-            val repository = FakeAuthRepository(testPreferencesDataStore(directory))
+            val repository =
+                FakeAuthRepository(
+                    SecureSessionStore(testPreferencesDataStore(directory), SessionCodec(testCipher(), Json)),
+                )
             assertEquals(SignInResult.InvalidCredentials, repository.signIn("alex@example.com", "short"))
             assertNull(repository.currentUser.first())
         }

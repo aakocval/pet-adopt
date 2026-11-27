@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Network policy. See docs/SECURITY.md for the threat model and the pin rotation plan.
+    - No cleartext (HTTP) anywhere.
+    - Only system CAs are trusted in release builds (no user-installed CAs).
+    - dog.ceo (the photo API) is pinned to its CA keys, not its leaf certificate.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="false">dog.ceo</domain>
+        <!-- After this date the pins are ignored (normal CA validation still applies), so a
+             forgotten rotation degrades to "unpinned", never to "app can't load photos".
+             PinExpiryTest fails CI 60 days before it. -->
+        <pin-set expiration="2027-06-30">
+            <!-- Google Trust Services WE1 (issuing intermediate, valid to 2029-02-20) -->
+            <pin digest="SHA-256">kIdp6NNEd8wsugYyyIYFsi1ylMCED3hZbSR8ZFsa/A4=</pin>
+            <!-- Backup: GTS Root R4, so a reissued intermediate under the same root keeps working -->
+            <pin digest="SHA-256">mEflZT5enoR1FuXLgYYGqnVEoZvmf9c2bVBpiOjYQ0c=</pin>
+        </pin-set>
+    </domain-config>
+
+    <!-- Debug builds only: allow a user-installed proxy CA (e.g. mitmproxy) for inspecting
+         traffic. Never applies to release builds, which aren't debuggable. -->
+    <debug-overrides>
+        <trust-anchors>
+            <certificates src="user" overridePins="true" />
+        </trust-anchors>
+    </debug-overrides>
+</network-security-config>

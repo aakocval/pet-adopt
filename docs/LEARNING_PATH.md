@@ -228,3 +228,27 @@ OfflineFirstPetRepository
   `photoUrl`. A mapper silently skipped them, every test still passed, and on a device every cat
   had a dog face and no tile had a photo. Removing the defaults made the compiler point at every
   call site; a regression test now pins the mapping.
+
+## M7 Security hardening (v0.8.0)
+
+**What this milestone teaches:** security as a set of small, testable decisions, each tied to
+a threat, with the trade-offs written down (`docs/SECURITY.md`).
+
+- **Encrypt the session, not "everything".** The session and token are encrypted with
+  AES-256-GCM under a key that never leaves the Android Keystore. `security-crypto` is
+  deprecated, so it's `javax.crypto` + Keystore directly. The cipher takes its key as a function,
+  so JVM tests run the real crypto with an in-memory key and an instrumented test covers the Keystore.
+- **Test the property you care about.** A test reads the raw preferences file and asserts the
+  email and token aren't in it. That's stronger than testing that "encrypt was called".
+- **Migrate, don't strand.** A DataStore `DataMigration` re-encrypts sessions saved by older
+  versions and deletes the plaintext, so upgrading users stay signed in.
+- **Pin CA keys, with a safety net.** The photo API is pinned to its intermediate and root keys
+  (leaf pins break on every renewal). The pin set expires, so a forgotten rotation fails open,
+  and a unit test fails CI 60 days before that date.
+- **Every external input is hostile.** Deep links go through an allow-list on the *raw* path:
+  validating the decoded path accepted `%64og-biscuit`, a test caught it, and it's fixed.
+- **Verify, then document.** Checking the merged manifest showed the first threat-model draft
+  was wrong about permissions and exported components; the docs now match the real build.
+- **Release builds tested for real.** A throwaway key (never committed) signed a minified build
+  that was run on a device: photos, typed navigation, adoption and deep links all work under R8,
+  with no custom keep rules.

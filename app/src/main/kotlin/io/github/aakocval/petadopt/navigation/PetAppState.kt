@@ -15,6 +15,7 @@ import io.github.aakocval.petadopt.feature.adoption.navigation.AdoptionGraph
 import io.github.aakocval.petadopt.feature.browse.navigation.navigateToBrowse
 import io.github.aakocval.petadopt.feature.explore.navigation.navigateToExplore
 import io.github.aakocval.petadopt.feature.favorites.navigation.navigateToFavorites
+import io.github.aakocval.petadopt.feature.petdetail.navigation.navigateToPetDetail
 import io.github.aakocval.petadopt.feature.profile.navigation.navigateToProfile
 
 /**
@@ -59,6 +60,12 @@ class PetAppState(
             TopLevelDestination.Favorites -> navController.navigateToFavorites(options)
             TopLevelDestination.Profile -> navController.navigateToProfile(options)
         }
+    }
+
+    /** Opens a pet from outside the app (a deep link): Browse tab, then its detail on top. */
+    fun openPet(petId: String) {
+        navigateToTopLevelDestination(TopLevelDestination.Browse)
+        navController.navigateToPetDetail(petId)
     }
 
     /** Re-tapping the selected tab pops it back to its root, like iOS. */

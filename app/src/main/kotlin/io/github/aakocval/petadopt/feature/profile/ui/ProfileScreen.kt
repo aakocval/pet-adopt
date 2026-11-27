@@ -18,6 +18,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,6 +35,7 @@ import io.github.aakocval.petadopt.core.designsystem.component.ListRow
 import io.github.aakocval.petadopt.core.designsystem.icon.PetAdoptIcons
 import io.github.aakocval.petadopt.core.designsystem.theme.PetAdoptTheme
 import io.github.aakocval.petadopt.core.designsystem.theme.Spacing
+import io.github.aakocval.petadopt.core.security.maskEmail
 
 @Composable
 fun ProfileScreen(
@@ -41,6 +43,8 @@ fun ProfileScreen(
     onOpenFavorites: () -> Unit,
     onSignOut: () -> Unit,
     modifier: Modifier = Modifier,
+    isEmailRevealed: Boolean = false,
+    onToggleEmail: () -> Unit = {},
 ) {
     Column(
         modifier =
@@ -65,16 +69,27 @@ fun ProfileScreen(
                 ) {
                     Icon(painterResource(PetAdoptIcons.Person), contentDescription = null)
                 }
-                Column {
+                Column(modifier = Modifier.weight(1f)) {
                     Text(
                         uiState.userName ?: stringResource(R.string.profile_guest_name),
                         style = MaterialTheme.typography.titleMedium,
                     )
                     Text(
-                        text = uiState.userEmail ?: stringResource(R.string.profile_guest_body),
+                        text =
+                            uiState.userEmail?.let { if (isEmailRevealed) it else maskEmail(it) }
+                                ?: stringResource(R.string.profile_guest_body),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
+                }
+                if (uiState.userEmail != null) {
+                    TextButton(onClick = onToggleEmail) {
+                        Text(
+                            stringResource(
+                                if (isEmailRevealed) R.string.profile_hide_email else R.string.profile_show_email,
+                            ),
+                        )
+                    }
                 }
             }
         }

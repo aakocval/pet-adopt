@@ -7,9 +7,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import io.github.aakocval.petadopt.core.deeplink.DeepLink
 import io.github.aakocval.petadopt.core.designsystem.component.BottomBarItem
 import io.github.aakocval.petadopt.core.designsystem.component.PetAdoptBottomBar
 import io.github.aakocval.petadopt.navigation.AppNavHost
@@ -19,8 +21,20 @@ import io.github.aakocval.petadopt.navigation.rememberPetAppState
 
 /** The app shell: bottom tabs, one snackbar host for every screen, and the nav host. */
 @Composable
-fun PetApp(appState: PetAppState = rememberPetAppState()) {
+fun PetApp(
+    appState: PetAppState = rememberPetAppState(),
+    pendingDeepLink: DeepLink? = null,
+    onDeepLinkHandled: () -> Unit = {},
+) {
     val snackbarHostState = remember { SnackbarHostState() }
+    // Links are validated by the activity; this only runs once the user is in the signed-in app.
+    LaunchedEffect(pendingDeepLink) {
+        when (pendingDeepLink) {
+            is DeepLink.Pet -> appState.openPet(pendingDeepLink.petId)
+            null -> return@LaunchedEffect
+        }
+        onDeepLinkHandled()
+    }
     val currentTab = appState.currentTopLevelDestination
     val tabs = TopLevelDestination.entries.map { BottomBarItem(stringResource(it.label), it.icon) }
 

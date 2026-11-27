@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import io.github.aakocval.petadopt.core.security.SecureScreen
 import io.github.aakocval.petadopt.core.ui.ObserveAsEvents
 
 /*
@@ -20,6 +21,7 @@ internal fun AdoptionFormRoute(
     onShowReview: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    SecureScreen() // name, email, phone and address details
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     ObserveAsEvents(viewModel.events) { if (it == AdoptionEvent.ShowReview) onShowReview() }
     val actions =
@@ -46,6 +48,7 @@ internal fun AdoptionReviewRoute(
     onSubmitted: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    SecureScreen() // name, email, phone and address details
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     ObserveAsEvents(viewModel.events) { if (it == AdoptionEvent.Submitted) onSubmitted() }
     AdoptionReviewScreen(uiState = uiState, onEdit = onEdit, onSubmit = viewModel::onSubmit, modifier = modifier)
@@ -57,6 +60,7 @@ internal fun AdoptionSuccessRoute(
     onDone: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    SecureScreen() // name, email, phone and address details
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     // System Back from Success leaves the whole flow, same as Done.
     BackHandler(onBack = onDone)

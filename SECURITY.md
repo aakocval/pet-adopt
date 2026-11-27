@@ -13,14 +13,16 @@ This is a showcase project. Only the latest release on `main` receives fixes.
 
 ## Security design
 
-What the app protects, what it doesn't, and why, mapped to OWASP MASVS, is documented in
-`docs/SECURITY.md` (added in the security hardening milestone, v0.8.0).
+The full threat model, mapped to OWASP MASVS, is in [docs/SECURITY.md](docs/SECURITY.md),
+including what is deliberately not protected and the certificate pin rotation plan.
 
-Already in place:
+In short:
 
-- No secrets in the repository; `local.properties`, keystores and signing files are git-ignored
-- App backups disabled with explicit data extraction rules
-- Only the launcher activity is exported
-- Release builds are minified with R8
-- Dependabot for Gradle dependencies and GitHub Actions; Actions pinned to commit SHAs
-- Gradle wrapper pinned by SHA-256 and validated in CI
+- Session and access token encrypted at rest (AES-256-GCM, Android Keystore key); password never stored
+- HTTPS only, system CAs only, certificate pinning for the photo API with an expiry safety net
+- Deep links validated by an allow-list before anything acts on them
+- `FLAG_SECURE` on account and application screens; optional biometric re-auth to reveal the email
+- Only the launcher activity exported; backups disabled; no dangerous (runtime) permissions
+- No logging in release builds; R8 shrinking; release signing from CI secrets, never the repo
+- gitleaks secret scanning, dependency graph + Dependabot alerts, dependency review on PRs
+- GitHub Actions pinned to commit SHAs; Gradle wrapper checksum-validated
