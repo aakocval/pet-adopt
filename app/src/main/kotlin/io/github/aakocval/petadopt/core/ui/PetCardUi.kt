@@ -1,6 +1,7 @@
 package io.github.aakocval.petadopt.core.ui
 
 import io.github.aakocval.petadopt.domain.model.FavoritablePet
+import io.github.aakocval.petadopt.domain.model.Species
 
 /**
  * What one pet tile needs, shared by every screen that shows pet tiles (Browse, Favorites).
@@ -12,6 +13,8 @@ data class PetCardUi(
     val breed: String,
     val ageInMonths: Int,
     val isFavorite: Boolean,
+    val species: Species = Species.Dog,
+    val photoUrl: String? = null,
 )
 
 fun FavoritablePet.toCardUi() =

@@ -35,6 +35,7 @@ import io.github.aakocval.petadopt.core.designsystem.component.PetTile
 import io.github.aakocval.petadopt.core.designsystem.theme.PetAdoptTheme
 import io.github.aakocval.petadopt.core.designsystem.theme.Spacing
 import io.github.aakocval.petadopt.core.ui.PetCardUi
+import io.github.aakocval.petadopt.core.ui.PetPhoto
 import io.github.aakocval.petadopt.core.ui.petSubtitle
 import kotlinx.collections.immutable.persistentListOf
 
@@ -99,6 +100,7 @@ fun BrowseScreen(
                             isFavorite = pet.isFavorite,
                             onClick = { onPetClick(pet.id) },
                             onToggleFavorite = { onToggleFavorite(pet.id, it) },
+                            image = { PetPhoto(photoUrl = pet.photoUrl, species = pet.species) },
                         )
                     }
                 }

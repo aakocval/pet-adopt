@@ -25,6 +25,7 @@ data class PetDetailUi(
     val bio: String,
     val shelterName: String,
     val isFavorite: Boolean,
+    val photoUrl: String? = null,
 )
 
 internal fun Pet.toDetailUi(isFavorite: Boolean) =
