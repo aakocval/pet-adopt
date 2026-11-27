@@ -125,6 +125,23 @@ class OfflineFirstPetRepositoryTest {
         }
 
     @Test
+    fun `a launch that starts offline heals once a later subscriber sees the network`() =
+        runTest {
+            offline = true
+            val repository = repository()
+            repository.observePets().test {
+                awaitItem()
+                advanceUntilIdle()
+            }
+
+            offline = false
+            repository.observePets().test {
+                assertTrue(awaitItem().all { it.photoUrl == null }, "still the offline state at first")
+                assertTrue(awaitItem().all { it.photoUrl != null }, "photos after the retry")
+            }
+        }
+
+    @Test
     fun `several subscribers share one catalog load`() =
         runTest {
             val repository = repository()
