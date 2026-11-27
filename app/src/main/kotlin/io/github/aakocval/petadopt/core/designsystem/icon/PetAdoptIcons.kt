@@ -21,4 +21,9 @@ object PetAdoptIcons {
     @DrawableRes val ChevronRight = R.drawable.ic_chevron_right
 
     @DrawableRes val ChevronLeft = R.drawable.ic_chevron_left
+
+    /** Multi-colour illustrations: draw with Image, not a tinted Icon. */
+    @DrawableRes val DogFace = R.drawable.ic_face_dog
+
+    @DrawableRes val CatFace = R.drawable.ic_face_cat
 }

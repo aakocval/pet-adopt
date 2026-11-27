@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Original illustrated dog face: shown while a photo loads or when offline. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    <!-- floppy ears -->
+    <path android:fillColor="#A8714A" android:pathData="M22,30c-8,2 -12,18 -8,30c2,6 9,6 11,0l6,-24c1,-5 -4,-7 -9,-6z" />
+    <path android:fillColor="#A8714A" android:pathData="M78,30c8,2 12,18 8,30c-2,6 -9,6 -11,0l-6,-24c-1,-5 4,-7 9,-6z" />
+    <!-- head, muzzle -->
+    <path android:fillColor="#E3B98A" android:pathData="M22,52a28,28 0,1 0,56,0a28,28 0,1 0,-56,0z" />
+    <path android:fillColor="#F7E3CB" android:pathData="M35,65a15,11 0,1 0,30,0a15,11 0,1 0,-30,0z" />
+    <!-- eyes with highlights -->
+    <path android:fillColor="#3A2A20" android:pathData="M35,47a4,4 0,1 0,8,0a4,4 0,1 0,-8,0z" />
+    <path android:fillColor="#3A2A20" android:pathData="M57,47a4,4 0,1 0,8,0a4,4 0,1 0,-8,0z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M39.099999999999994,45.7a1.2,1.2 0,1 0,2.4,0a1.2,1.2 0,1 0,-2.4,0z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M61.099999999999994,45.7a1.2,1.2 0,1 0,2.4,0a1.2,1.2 0,1 0,-2.4,0z" />
+    <!-- nose and smile -->
+    <path android:fillColor="#3A2A20" android:pathData="M44.5,59a5.5,4 0,1 0,11.0,0a5.5,4 0,1 0,-11.0,0z" />
+    <path android:strokeColor="#3A2A20" android:strokeWidth="2" android:strokeLineCap="round" android:pathData="M50,63v4M50,67c-2,3 -6,3 -8,1M50,67c2,3 6,3 8,1" />
+</vector>
